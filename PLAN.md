@@ -261,9 +261,11 @@ Hver fase avsluttes med oppdatert `CHANGELOG.md` og `README.md`, en commit etter
 
 - Design: samme uttrykk som ranheimkraft.no (avsnitt 3).
 - Nettsiden er et GitHub-repo; Kraft-Fryer synkes inn som de andre verktøyene (avsnitt 9).
+- Repoet er offentlig, så synk-skriptet kan klone uten innlogging.
+- Adresse: `/airfryer/`. Navn i menyen: «Kraft-Fryer».
+- Lansert 10. november 2026 som v1.0.0 (nettsiden v2.10.0).
 
 **Åpent**
 
-- **Offentlig repo:** synk-skriptet kloner uten innlogging, så Kraft-Fryer må være offentlig (som de andre verktøyrepoene). Et privat repo krever et eget token i nettsidens workflow.
-- **Adresse:** `/airfryer/` er foreslått fordi folk søker på «airfryer kalkulator». Alternativet er `/fryer/`.
-- **Navn i menyen:** «Kraft-Fryer», eller «Fryer Kraft» for å ligne «Quiz Kraft» og «QR Kraft»?
+- **Umiddelbar synk:** nettsiden henter oppdateringer hver 3. time. For synk ved hver push trengs `SITE_DISPATCH_TOKEN` (avsnitt 9).
+- **Rutenettet på forsiden:** med fem verktøy havner det femte kortet alene på en ny rad på desktop.

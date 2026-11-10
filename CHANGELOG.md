@@ -7,6 +7,18 @@ og prosjektet følger [Semantic Versioning](https://semver.org/lang/no/).
 
 ## [Unreleased]
 
+## [1.0.0] - 2026-11-10
+
+### Lagt til
+
+- Lansert på **https://ranheimkraft.no/airfryer/**, med kort på forsiden og lenke i menyen (nettsiden v2.10.0).
+- Nettsidens `sync_subprojects.py` henter `build`-grenen inn i `airfryer/` og legger til Umami.
+- README forklarer hvor lang tid det tar før en endring er på nettsiden, og hvordan synken kjøres manuelt.
+
+### Endret
+
+- `PLAN.md`: avklarte spørsmål er flyttet til «Avklart», og det som gjenstår er listet under «Åpent».
+
 ## [0.5.0] - 2026-11-10
 
 ### Lagt til
@@ -104,7 +116,8 @@ og prosjektet følger [Semantic Versioning](https://semver.org/lang/no/).
 - `CLAUDE.md` med arbeidsregler for dokumentasjon, versjonering, hemmeligheter og GitHub-arbeidsflyt.
 - `README.md`, `CHANGELOG.md` og `.gitignore`.
 
-[Unreleased]: https://github.com/RanheimGeriljaTV/Kraft-Fryer/compare/v0.5.0...HEAD
+[Unreleased]: https://github.com/RanheimGeriljaTV/Kraft-Fryer/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/RanheimGeriljaTV/Kraft-Fryer/compare/v0.5.0...v1.0.0
 [0.5.0]: https://github.com/RanheimGeriljaTV/Kraft-Fryer/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/RanheimGeriljaTV/Kraft-Fryer/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/RanheimGeriljaTV/Kraft-Fryer/compare/v0.2.0...v0.3.0

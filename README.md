@@ -4,7 +4,7 @@
 
 Gjør om temperatur og tid fra en vanlig stekeovnsoppskrift til airfryer-innstillinger, med hurtigvalg for populære varer og en innebygd nedtellingsklokke. Laget for å kunne brukes med én tommel på mobil.
 
-> **Status:** v0.5.0 – alle funksjoner er ferdige og polert. Neste steg er lansering på ranheimkraft.no (1.0.0). Se [`PLAN.md`](PLAN.md) for plan og milepæler.
+> **Status:** v1.0.0 – live på **https://ranheimkraft.no/airfryer/**. Se [`PLAN.md`](PLAN.md) for plan og milepæler.
 >
 > **Forhåndsvisning:** https://ranheimgeriljatv.github.io/Kraft-Fryer/
 
@@ -124,6 +124,14 @@ npm run dev
 3. **GitHub Pages** (bare `main`): forhåndsvisning på https://ranheimgeriljatv.github.io/Kraft-Fryer/.
 
 Bygget bruker relative stier (`base: './'` i [`vite.config.ts`](vite.config.ts)), så det virker fra hvilken som helst mappe.
+
+**Hvor lang tid tar det før en endring er på ranheimkraft.no?** Nettsidens Auto-Sync kjører hver 3. time. Vil du ha den ut med en gang, kjør arbeidsflyten «Auto-Sync Subprosjekter» manuelt med prosjekt `fryer`:
+
+```bash
+gh workflow run sync-subprojects.yml --repo RanheimGeriljaTV/ranheimkraft.no -f project=fryer
+```
+
+Filene i `airfryer/` i nettside-repoet skal aldri redigeres der; de overskrives ved hver synk.
 
 ## Bidra
 
