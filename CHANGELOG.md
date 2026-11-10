@@ -7,6 +7,21 @@ og prosjektet følger [Semantic Versioning](https://semver.org/lang/no/).
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-11-10
+
+### Lagt til
+
+- Omregning i sanntid (`src/lib/convert.ts`): −20 °C ved over-/undervarme, −10 °C ved varmluft, maks 200 °C, tid × 0,80 (ett lag) eller × 0,90 (full kurv), og ristevarsel etter halve tiden.
+- Inputfelter for ovnstype, temperatur (150–250 °C), tid (5–90 min med hurtigknapper 15/20/30/45) og mengde.
+- −/+-knapper som gjentar seg når de holdes inne, og sliders med stor «thumb» i oransje.
+- Resultatkort festet nederst på skjermen, med notis når temperaturen kuttes til 200 °C.
+- Tastaturstyring: piltaster i valgknappene, Enter/Mellomrom på −/+.
+- 27 nye tester for utregning og skjermbilde (30 totalt).
+
+### Endret
+
+- GitHub Actions oppgradert til nyeste versjoner (`checkout@v7`, `setup-node@v7`, `upload-pages-artifact@v5`, `download-artifact@v8`, `deploy-pages@v5`), som ikke lenger bruker Node 20.
+
 ## [0.1.0] - 2026-11-10
 
 ### Lagt til
@@ -33,6 +48,7 @@ og prosjektet følger [Semantic Versioning](https://semver.org/lang/no/).
 - `CLAUDE.md` med arbeidsregler for dokumentasjon, versjonering, hemmeligheter og GitHub-arbeidsflyt.
 - `README.md`, `CHANGELOG.md` og `.gitignore`.
 
-[Unreleased]: https://github.com/RanheimGeriljaTV/Kraft-Fryer/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/RanheimGeriljaTV/Kraft-Fryer/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/RanheimGeriljaTV/Kraft-Fryer/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/RanheimGeriljaTV/Kraft-Fryer/compare/v0.0.1...v0.1.0
 [0.0.1]: https://github.com/RanheimGeriljaTV/Kraft-Fryer/releases/tag/v0.0.1

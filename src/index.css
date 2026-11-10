@@ -42,6 +42,61 @@
   }
 }
 
+/*
+ * Slider med tykk spor og stor «thumb» (minst 28 px) for tommelstyring.
+ * --fill settes fra komponenten og farger sporet frem til verdien.
+ */
+@layer components {
+  .range {
+    @apply h-12 w-full cursor-pointer touch-pan-y appearance-none bg-transparent;
+  }
+
+  .range::-webkit-slider-runnable-track {
+    @apply h-2.5 rounded-full;
+    background: linear-gradient(
+      to right,
+      var(--color-accent) var(--fill, 0%),
+      rgb(255 255 255 / 0.1) var(--fill, 0%)
+    );
+  }
+
+  .range::-moz-range-track {
+    @apply h-2.5 rounded-full bg-white/10;
+  }
+
+  .range::-moz-range-progress {
+    @apply h-2.5 rounded-full bg-accent;
+  }
+
+  .range::-webkit-slider-thumb {
+    @apply -mt-[9.5px] size-7 appearance-none rounded-full border-4 border-brand-dark bg-white shadow-lg;
+  }
+
+  .range::-moz-range-thumb {
+    @apply size-7 rounded-full border-4 border-brand-dark bg-white shadow-lg;
+  }
+
+  .range:active::-webkit-slider-thumb {
+    @apply scale-110 bg-accent;
+  }
+
+  .range:active::-moz-range-thumb {
+    @apply scale-110 bg-accent;
+  }
+
+  .range:focus-visible {
+    @apply outline-none;
+  }
+
+  .range:focus-visible::-webkit-slider-thumb {
+    @apply outline-2 outline-offset-2 outline-accent;
+  }
+
+  .range:focus-visible::-moz-range-thumb {
+    @apply outline-2 outline-offset-2 outline-accent;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

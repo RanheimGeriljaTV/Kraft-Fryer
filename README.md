@@ -4,17 +4,31 @@
 
 Gjør om temperatur og tid fra en vanlig stekeovnsoppskrift til airfryer-innstillinger, med hurtigvalg for populære varer og en innebygd nedtellingsklokke. Laget for å kunne brukes med én tommel på mobil.
 
-> **Status:** v0.1.0 – grunnoppsett med design, header og bunntekst. Selve kalkulatoren kommer i 0.2.0. Se [`PLAN.md`](PLAN.md) for plan og milepæler.
+> **Status:** v0.2.0 – omregningen virker. Hurtigvalg kommer i 0.3.0 og nedtellingsklokke i 0.4.0. Se [`PLAN.md`](PLAN.md) for plan og milepæler.
 >
 > **Forhåndsvisning:** https://ranheimgeriljatv.github.io/Kraft-Fryer/
 
-## Funksjoner (planlagt)
+## Funksjoner
 
-- **Omregning i sanntid**, uten «Beregn»-knapp
-  - Ovnstype: over-/undervarme (−20 °C) eller varmluft (−10 °C)
-  - Temperatur 150–250 °C, maks 200 °C i airfryer (med notis)
-  - Tid 5–90 min: × 0,80 for ett lag, × 0,90 for full kurv
-  - Ristevarsel etter halve tiden
+### Omregning i sanntid (ferdig)
+
+Resultatet oppdateres med en gang du endrer noe, uten «Beregn»-knapp. Det ligger fast nederst på skjermen.
+
+| Input                    | Styring                                                          | Regel                                                          |
+| ------------------------ | ---------------------------------------------------------------- | -------------------------------------------------------------- |
+| Ovnstype                 | To store valgknapper (piltaster virker)                          | Over-/undervarme −20 °C, varmluft −10 °C                       |
+| Temperatur i oppskriften | −/+ (steg 5 °C, holdes inne for å gå fort) og slider, 150–250 °C | Maks 200 °C i airfryeren, med notis når den kuttes             |
+| Tid i oppskriften        | −/+ (steg 1 min), slider 5–90 min og hurtigknapper 15/20/30/45   | × 0,80 for ett lag, × 0,90 for full kurv, nærmeste hele minutt |
+| Mengde i kurven          | To store valgknapper                                             | Se tid                                                         |
+
+**Ristevarsel** vises etter halve den nye tiden («ca.» når halvtiden ikke er et helt minutt).
+
+Standardverdier: over-/undervarme, 200 °C, 20 min, ett lag → 180 °C i 16 min, rist etter 8 min.
+
+Logikken ligger i [`src/lib/convert.ts`](src/lib/convert.ts) og er testet i [`convert.test.ts`](src/lib/convert.test.ts).
+
+### Planlagt
+
 - **Hurtigvalg:** pommes frites, kyllingbryst, laksefilet, frossenpizza og rotgrønnsaker
 - **Nedtellingsklokke** med lyd, vibrasjon og visuelt varsel halvveis og når maten er ferdig
 

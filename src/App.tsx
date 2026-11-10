@@ -1,12 +1,47 @@
+import { useState } from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import SegmentedToggle, { type ToggleOption } from './components/SegmentedToggle';
+import Stepper from './components/Stepper';
+import ResultCard from './components/ResultCard';
+import {
+  OVEN_MINUTES,
+  OVEN_TEMP,
+  QUICK_MINUTES,
+  TEMP_REDUCTION,
+  TIME_FACTOR,
+  convert,
+  type Load,
+  type OvenType,
+} from './lib/convert';
 
-const SECTIONS = ['Ovn', 'Temperatur', 'Tid', 'Mengde'];
+const formatFactor = (factor: number) => `× ${factor.toFixed(2).replace('.', ',')}`;
+
+const OVEN_OPTIONS: readonly ToggleOption<OvenType>[] = [
+  {
+    value: 'conventional',
+    label: 'Over-/undervarme',
+    hint: `−${TEMP_REDUCTION.conventional} °C`,
+  },
+  { value: 'fan', label: 'Varmluft', hint: `−${TEMP_REDUCTION.fan} °C` },
+];
+
+const LOAD_OPTIONS: readonly ToggleOption<Load>[] = [
+  { value: 'normal', label: 'Normalt (1 lag)', hint: `tid ${formatFactor(TIME_FACTOR.normal)}` },
+  { value: 'full', label: 'Full kurv / Mye mat', hint: `tid ${formatFactor(TIME_FACTOR.full)}` },
+];
 
 export default function App() {
+  const [ovenType, setOvenType] = useState<OvenType>('conventional');
+  const [ovenTemp, setOvenTemp] = useState<number>(OVEN_TEMP.default);
+  const [ovenMinutes, setOvenMinutes] = useState<number>(OVEN_MINUTES.default);
+  const [load, setLoad] = useState<Load>('normal');
+
+  const result = convert({ ovenType, ovenTemp, ovenMinutes, load });
+
   return (
     <div
-      className="mx-auto flex min-h-screen max-w-[480px] flex-col gap-8 px-4 pt-4 pb-6"
+      className="mx-auto flex min-h-screen max-w-[480px] flex-col gap-6 px-4 pt-4 pb-4"
       style={{
         paddingLeft: 'max(1rem, env(safe-area-inset-left))',
         paddingRight: 'max(1rem, env(safe-area-inset-right))',
@@ -14,33 +49,53 @@ export default function App() {
     >
       <Header />
 
-      <main className="flex-1 space-y-4">
-        <ol className="grid grid-cols-2 gap-3">
-          {SECTIONS.map((label, i) => (
-            <li
-              key={label}
-              className="space-y-1 rounded-2xl border border-white/5 bg-white/[0.02] p-4"
-            >
-              <span className="font-syne text-xl font-bold text-zinc-600">0{i + 1}</span>
-              <p className="font-syne text-sm font-bold tracking-wider text-white uppercase">
-                {label}
-              </p>
-            </li>
-          ))}
-        </ol>
+      <main className="flex flex-1 flex-col gap-5">
+        <p className="text-sm leading-relaxed text-zinc-400">
+          Skriv inn det som står i stekeovnsoppskriften, så regner vi om til airfryer.
+        </p>
 
-        <section
-          aria-label="Status"
-          className="space-y-2 rounded-2xl border border-white/10 bg-brand-navy p-5"
-        >
-          <span className="font-syne text-xs font-bold tracking-wider text-accent uppercase">
-            Under bygging
-          </span>
-          <p className="text-sm leading-relaxed text-zinc-400">
-            Kalkulatoren kommer snart. Her skal du kunne gjøre om temperatur og tid fra en
-            stekeovnsoppskrift til airfryer, med hurtigvalg og nedtellingsklokke.
-          </p>
-        </section>
+        <SegmentedToggle
+          index={1}
+          label="Ovnstype i oppskriften"
+          options={OVEN_OPTIONS}
+          value={ovenType}
+          onChange={setOvenType}
+        />
+
+        <Stepper
+          index={2}
+          label="Temperatur i oppskriften"
+          name="Temperatur i oppskriften"
+          value={ovenTemp}
+          min={OVEN_TEMP.min}
+          max={OVEN_TEMP.max}
+          step={OVEN_TEMP.step}
+          unit="°C"
+          onChange={setOvenTemp}
+        />
+
+        <Stepper
+          index={3}
+          label="Tid i oppskriften"
+          name="Tid i oppskriften"
+          value={ovenMinutes}
+          min={OVEN_MINUTES.min}
+          max={OVEN_MINUTES.max}
+          step={OVEN_MINUTES.step}
+          unit="min"
+          quickValues={QUICK_MINUTES}
+          onChange={setOvenMinutes}
+        />
+
+        <SegmentedToggle
+          index={4}
+          label="Mengde i kurven"
+          options={LOAD_OPTIONS}
+          value={load}
+          onChange={setLoad}
+        />
+
+        <ResultCard result={result} />
       </main>
 
       <Footer />

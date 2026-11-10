@@ -159,12 +159,14 @@ Kraft-Fryer/
 │  │  ├─ Header.tsx               # isbjørn + «← Ranheim Kraft»
 │  │  ├─ Footer.tsx
 │  │  ├─ PresetBar.tsx
+│  │  ├─ SectionLabel.tsx         # «01 / Ovn»-etiketter
 │  │  ├─ SegmentedToggle.tsx      # ovnstype + mengde
 │  │  ├─ Stepper.tsx              # −/+ med slider og hurtigknapper
 │  │  ├─ ResultCard.tsx
 │  │  └─ Timer.tsx
 │  ├─ hooks/
 │  │  ├─ useCountdown.ts
+│  │  ├─ useRepeatPress.ts        # −/+ gjentas ved langt trykk
 │  │  └─ useWakeLock.ts
 │  ├─ lib/
 │  │  ├─ convert.ts               # ren utregning
