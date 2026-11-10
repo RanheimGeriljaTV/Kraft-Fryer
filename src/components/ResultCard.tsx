@@ -5,10 +5,12 @@ interface Props {
   settings: AirfryerSettings;
   /** Vises som ×-knapp når et hurtigvalg er aktivt. */
   onClearPreset?: () => void;
+  /** Nedtellingsklokken, nederst i kortet. */
+  children?: React.ReactNode;
 }
 
 /** Resultatet, festet nederst på skjermen så det alltid er synlig. */
-export default function ResultCard({ settings, onClearPreset }: Props) {
+export default function ResultCard({ settings, onClearPreset, children }: Props) {
   const { temp, minutes, capped, midway, preset } = settings;
   const midwayTime = midway && shakeMinutesLabel(midway.atSeconds);
 
@@ -98,6 +100,8 @@ export default function ResultCard({ settings, onClearPreset }: Props) {
             </span>
           </p>
         )}
+
+        {children}
       </div>
     </section>
   );

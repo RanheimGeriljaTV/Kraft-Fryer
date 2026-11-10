@@ -7,6 +7,22 @@ og prosjektet følger [Semantic Versioning](https://semver.org/lang/no/).
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-11-10
+
+### Lagt til
+
+- Nedtellingsklokke i resultatkortet med «Start nedtelling», Pause/Fortsett og Nullstill.
+- Oransje fremdriftsring med prikk ved halvveis, «Rist om …» og «Ferdig kl. …».
+- Halvveis-varsel med to pip, vibrasjon og banneret «Rist kurven nå!» / «Snu maten nå!».
+- Ferdig-varsel med gjentatt lyd, kraftig vibrasjon og blinkende kort til brukeren trykker OK.
+- Lyd laget med Web Audio API (`src/lib/sound.ts`), låst opp ved trykk på Start for iOS.
+- Skjermen holdes på mens klokka går (`src/hooks/useWakeLock.ts`).
+- Gjenstående tid i fanetittelen.
+- Spørsmål om omstart når tiden eller ristetiden endres mens klokka går.
+- `useCountdown` regner fra sluttidspunktet, så klokka er riktig etter tid i bakgrunnen.
+- Umami-hendelse `timer_start`.
+- 19 nye tester (68 totalt).
+
 ## [0.3.0] - 2026-11-10
 
 ### Lagt til
@@ -63,7 +79,8 @@ og prosjektet følger [Semantic Versioning](https://semver.org/lang/no/).
 - `CLAUDE.md` med arbeidsregler for dokumentasjon, versjonering, hemmeligheter og GitHub-arbeidsflyt.
 - `README.md`, `CHANGELOG.md` og `.gitignore`.
 
-[Unreleased]: https://github.com/RanheimGeriljaTV/Kraft-Fryer/compare/v0.3.0...HEAD
+[Unreleased]: https://github.com/RanheimGeriljaTV/Kraft-Fryer/compare/v0.4.0...HEAD
+[0.4.0]: https://github.com/RanheimGeriljaTV/Kraft-Fryer/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/RanheimGeriljaTV/Kraft-Fryer/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/RanheimGeriljaTV/Kraft-Fryer/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/RanheimGeriljaTV/Kraft-Fryer/compare/v0.0.1...v0.1.0

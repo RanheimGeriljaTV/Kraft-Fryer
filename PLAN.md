@@ -138,13 +138,14 @@ Logikk i en egen hook, `src/hooks/useCountdown.ts`.
 
 - **Knapper:** `Start nedtelling` → `Pause` / `Fortsett` → `Nullstill`.
 - **Presis tid:** lagrer sluttidspunkt (`Date.now() + varighet`) og regner gjenstående tid fra det. Da går ikke klokka feil når fanen ligger i bakgrunnen eller skjermen dimmes.
-- **Visning:** stor `mm:ss` i Syne og en oransje fremdriftsring.
+- **Visning:** stor `mm:ss` i Syne og en oransje fremdriftsring med en prikk der halvveis-varselet kommer. Under tiden står «Rist om m:ss», deretter «Ferdig kl. hh:mm».
 - **Halvveis-varsel:** lyd (to korte pip), vibrasjon (`navigator.vibrate`) og et banner: «Rist kurven nå!» / «Snu maten nå!».
 - **Ferdig-varsel:** lengre lydsignal som gjentas til brukeren trykker «OK», kraftig vibrasjon og et blinkende kort (stille kort ved «redusert bevegelse»).
 - **Lyd:** genereres med Web Audio API (`OscillatorNode`), så det trengs ingen lydfiler. `AudioContext` låses opp ved første trykk på «Start», fordi iOS Safari krever et brukertrykk før lyd kan spilles.
 - **Hold skjermen på:** Screen Wake Lock API mens timeren går (der nettleseren støtter det).
 - **Tittel i fanen:** viser gjenstående tid (`⏱ 07:32 – Kraft-Fryer`).
-- Endrer brukeren innstillingene mens timeren går, spør appen om timeren skal startes på nytt med ny tid.
+- Endrer brukeren innstillingene mens timeren går, spør appen om timeren skal startes på nytt med ny tid («Start på nytt» / «Behold»). Bare endret tid eller ristetid utløser spørsmålet, ikke temperatur.
+- Kommer brukeren tilbake etter at tiden er ute, vises bare ferdig-varselet, ikke halvveis-varselet.
 
 ## 8. Mappestruktur
 
@@ -172,7 +173,8 @@ Kraft-Fryer/
 │  │  ├─ convert.ts               # ren utregning
 │  │  ├─ convert.test.ts
 │  │  ├─ settings.ts              # felles resultatformat (omregning + hurtigvalg)
-│  │  └─ sound.ts                 # Web Audio-pip
+│  │  ├─ sound.ts                 # Web Audio-pip og vibrasjon
+│  │  └─ time.ts                  # m:ss og klokkeslett
 │  ├─ data/presets.ts
 │  ├─ index.css                   # Tailwind + @theme med merkevarefarger
 │  ├─ App.tsx

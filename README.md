@@ -4,7 +4,7 @@
 
 Gjør om temperatur og tid fra en vanlig stekeovnsoppskrift til airfryer-innstillinger, med hurtigvalg for populære varer og en innebygd nedtellingsklokke. Laget for å kunne brukes med én tommel på mobil.
 
-> **Status:** v0.3.0 – omregning og hurtigvalg virker. Nedtellingsklokken kommer i 0.4.0. Se [`PLAN.md`](PLAN.md) for plan og milepæler.
+> **Status:** v0.4.0 – omregning, hurtigvalg og nedtellingsklokke virker. Neste steg er polering (0.5.0) og lansering på ranheimkraft.no (1.0.0). Se [`PLAN.md`](PLAN.md) for plan og milepæler.
 >
 > **Forhåndsvisning:** https://ranheimgeriljatv.github.io/Kraft-Fryer/
 
@@ -43,9 +43,25 @@ En sveipbar rad øverst gir ferdige airfryer-innstillinger med ett trykk, for va
 - Oppskriftsfeltene dempes mens et hurtigvalg er i bruk. Endrer du noe der, eller trykker på hurtigvalget igjen, går appen tilbake til omregning. Verdiene du hadde skrevet inn, beholdes.
 - Varene ligger i [`src/data/presets.ts`](src/data/presets.ts). Legg til en ny ved å legge til et objekt i listen.
 
-### Planlagt
+### Nedtellingsklokke (ferdig)
 
-- **Nedtellingsklokke** med lyd, vibrasjon og visuelt varsel halvveis og når maten er ferdig
+Trykk **Start nedtelling** i resultatkortet. Klokka bruker tiden fra omregningen eller hurtigvalget.
+
+| Når             | Hva skjer                                                                                                              |
+| --------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| Mens den går    | Stor `m:ss`, oransje ring med prikk ved halvveis, «Rist om …» og deretter «Ferdig kl. …». Pause/Fortsett og Nullstill. |
+| Halvveis        | To pip, vibrasjon og banneret «Rist kurven nå!» eller «Snu maten nå!» (ikke for laks og pizza).                        |
+| Ferdig          | Tre stigende pip som gjentas hvert 2,5 sekund, kraftig vibrasjon og blinkende «Maten er ferdig!» til du trykker OK.    |
+| Du endrer tiden | Spørsmål om å starte på nytt med ny tid, eller beholde nedtellingen.                                                   |
+| I en annen fane | Fanetittelen viser gjenstående tid (`⏱ 7:32 – …`, `✅ Ferdig! – …`).                                                   |
+
+- Tiden regnes fra et fast sluttidspunkt, så den er riktig selv om fanen har ligget i bakgrunnen.
+- Skjermen holdes på mens klokka går (Screen Wake Lock), der nettleseren støtter det.
+
+**Begrensninger i nettleseren:**
+
+- **iPhone:** står telefonen på lydløs, spilles ingen lyd. iPhone har heller ikke vibrasjon i nettleseren. Det visuelle varselet virker alltid.
+- **Låst skjerm:** nettlesere kjører ikke JavaScript pålitelig når skjermen er låst. Varselet kommer da når du låser opp. Derfor holder appen skjermen på.
 
 ## Design
 
