@@ -1,0 +1,54 @@
+@import 'tailwindcss';
+
+/*
+ * Merkevaretokens – felles med ranheimkraft.no.
+ * Alle farger og fonter defineres her. Ikke hardkod nye farger i komponentene.
+ */
+@theme {
+  --font-syne: 'Syne', sans-serif;
+  --font-sans: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --color-brand-dark: #08080a;
+  --color-brand-navy: #0d111a;
+  --color-brand-cyan: #00f0ff;
+
+  /* Aksentfarge for Kraft-Fryer (Quiz = amber, QR = cyan, Tabell = sky, Events = emerald) */
+  --color-accent: var(--color-orange-400);
+  --color-accent-strong: var(--color-orange-500);
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    color-scheme: dark;
+  }
+
+  body {
+    @apply min-h-screen overflow-x-hidden bg-brand-dark font-sans text-zinc-200 antialiased;
+  }
+
+  a,
+  button {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  ::selection {
+    @apply bg-accent text-black;
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-accent;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
