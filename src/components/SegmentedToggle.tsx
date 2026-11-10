@@ -65,10 +65,10 @@ export default function SegmentedToggle<T extends string>({
                   : 'text-zinc-300 hover:bg-white/5 hover:text-white'
               }`}
             >
-              <span className="text-sm leading-tight font-bold">{option.label}</span>
+              <span className="text-sm leading-tight font-bold">{option.label}</span>{' '}
               {option.hint && (
                 <span
-                  className={`font-mono text-[11px] ${selected ? 'text-black/70' : 'text-zinc-500'}`}
+                  className={`font-mono text-[11px] ${selected ? 'text-black/70' : 'text-zinc-400'}`}
                 >
                   {option.hint}
                 </span>

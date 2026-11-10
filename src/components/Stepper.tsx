@@ -85,7 +85,7 @@ export default function Stepper({
         onChange={(event) => set(Number(event.target.value))}
         style={{ '--fill': `${fill}%` } as React.CSSProperties}
       />
-      <div className="-mt-2 flex justify-between font-mono text-[11px] text-zinc-500">
+      <div className="-mt-2 flex justify-between font-mono text-[11px] text-zinc-400">
         <span>
           {min} {unit}
         </span>

@@ -80,7 +80,10 @@ export default function App() {
       <main className="flex flex-1 flex-col gap-5">
         <PresetBar presets={PRESETS} activeId={presetId} onSelect={setPresetId} />
 
-        <div className={`flex flex-col gap-5 transition-opacity ${preset ? 'opacity-60' : ''}`}>
+        {/* Dempet, men fortsatt over 4,5:1 i kontrast: opacity-80 + mindre farge. */}
+        <div
+          className={`flex flex-col gap-5 transition ${preset ? 'opacity-80 saturate-[.35]' : ''}`}
+        >
           <p className="text-sm leading-relaxed text-zinc-400">
             {preset
               ? 'Hurtigvalg er i bruk. Endrer du noe under, regner vi om oppskriften i stedet.'

@@ -7,6 +7,31 @@ og prosjektet følger [Semantic Versioning](https://semver.org/lang/no/).
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-11-10
+
+### Lagt til
+
+- Automatiske tilgjengelighetstester med axe-core (WCAG 2.1 A/AA) for startside, hurtigvalg, maksgrense, halvveis- og ferdig-varsel (`src/a11y.test.tsx`).
+- Meta-tagger for søk og deling: utvidet beskrivelse, `canonical` til `ranheimkraft.no/airfryer/`, Open Graph, Twitter og `apple-touch-icon`.
+- Melding når JavaScript er slått av (`<noscript>`).
+- Animasjoner: resultattallene «spretter» ved endring, og varslene glir inn. Av ved «redusert bevegelse».
+- Umami-hendelser `preset_clear`, `timer_restart` og `timer_keep`.
+- 7 nye tester (75 totalt).
+
+### Endret
+
+- Etikettene «01 / Ovn» osv. er nå `h2`-overskrifter, så skjermlesere kan hoppe mellom delene. Nummeret leses ikke opp.
+- Skjermlesere får nytt resultat først når verdien har stått stille i 0,7 sekunder, ikke for hvert steg på slideren.
+- Spørsmålet om omstart av timeren har `role="status"` og leses opp.
+- Hurtigvalgene heter det samme for skjermlesere og talestyring som det som står på knappen (WCAG 2.5.3).
+- Ingen «kopier/del»-meny på iPhone når −/+ holdes inne.
+
+### Rettet
+
+- Liten grå hjelpetekst hadde for lav kontrast (3,9–4,1:1). Den er nå 7,4:1 eller mer.
+- De dempede oppskriftsfeltene hadde for lav kontrast (3,4:1). De er nå dempet med farge og 80 % synlighet (5,2:1).
+- Skjermlesere leste «Pommes frites200 °C», «Over-/undervarme−20 °C» og «Start nedtelling16:00» uten mellomrom.
+
 ## [0.4.0] - 2026-11-10
 
 ### Lagt til
@@ -79,7 +104,8 @@ og prosjektet følger [Semantic Versioning](https://semver.org/lang/no/).
 - `CLAUDE.md` med arbeidsregler for dokumentasjon, versjonering, hemmeligheter og GitHub-arbeidsflyt.
 - `README.md`, `CHANGELOG.md` og `.gitignore`.
 
-[Unreleased]: https://github.com/RanheimGeriljaTV/Kraft-Fryer/compare/v0.4.0...HEAD
+[Unreleased]: https://github.com/RanheimGeriljaTV/Kraft-Fryer/compare/v0.5.0...HEAD
+[0.5.0]: https://github.com/RanheimGeriljaTV/Kraft-Fryer/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/RanheimGeriljaTV/Kraft-Fryer/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/RanheimGeriljaTV/Kraft-Fryer/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/RanheimGeriljaTV/Kraft-Fryer/compare/v0.1.0...v0.2.0

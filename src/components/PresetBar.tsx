@@ -24,7 +24,6 @@ export default function PresetBar({ presets, activeId, onSelect }: Props) {
               <button
                 type="button"
                 aria-pressed={active}
-                aria-label={`${preset.name}: ${preset.temp} °C i ${preset.minutes} min`}
                 data-umami-event={`preset_${preset.id}`}
                 data-preset-id={preset.id}
                 onClick={() => onSelect(active ? null : preset.id)}
@@ -40,10 +39,10 @@ export default function PresetBar({ presets, activeId, onSelect }: Props) {
                 <span className="flex flex-col">
                   <span className="text-sm leading-tight font-bold whitespace-nowrap">
                     {preset.label}
-                  </span>
+                  </span>{' '}
                   <span
                     className={`font-mono text-[11px] whitespace-nowrap ${
-                      active ? 'text-black/70' : 'text-zinc-500'
+                      active ? 'text-black/70' : 'text-zinc-400'
                     }`}
                   >
                     {preset.temp} °C · {preset.minutes} min

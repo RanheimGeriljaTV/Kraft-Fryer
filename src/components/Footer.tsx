@@ -6,7 +6,7 @@ export default function Footer() {
 
   return (
     <footer
-      className="flex flex-col items-center justify-between gap-1 border-t border-white/10 pt-6 font-mono text-xs text-zinc-500 sm:flex-row"
+      className="flex flex-col items-center justify-between gap-1 border-t border-white/10 pt-6 font-mono text-xs text-zinc-400 sm:flex-row"
       style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
     >
       <div>

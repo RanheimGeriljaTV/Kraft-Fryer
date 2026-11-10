@@ -81,7 +81,7 @@ describe('Nedtellingsklokke', () => {
 
   it('varsler når maten er ferdig, gjentar lyden og stopper på OK', () => {
     render(<App />);
-    click(screen.getByRole('button', { name: /Frossenpizza/ }));
+    click(screen.getByRole('button', { name: /Pizza/ }));
     click(startButton());
 
     advance(8 * 60 * 1000);

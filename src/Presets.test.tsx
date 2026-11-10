@@ -10,9 +10,9 @@ describe('Hurtigvalg i appen', () => {
     const user = userEvent.setup();
     render(<App />);
 
-    await user.click(presetButton(/Frosne pommes frites/));
+    await user.click(presetButton(/Pommes frites/));
 
-    expect(presetButton(/Frosne pommes frites/)).toHaveAttribute('aria-pressed', 'true');
+    expect(presetButton(/Pommes frites/)).toHaveAttribute('aria-pressed', 'true');
     expect(card().getByText('Frosne pommes frites: 200 grader i 16 minutter.')).toBeInTheDocument();
     expect(card().getByText(/Rist etter/)).toHaveTextContent('Rist etter 8 min');
   });
@@ -41,7 +41,7 @@ describe('Hurtigvalg i appen', () => {
     render(<App />);
 
     await user.click(presetButton(/Laksefilet/));
-    await user.click(presetButton(/rotgrønnsaker/));
+    await user.click(presetButton(/Rotgrønnsaker/));
 
     expect(presetButton(/Laksefilet/)).toHaveAttribute('aria-pressed', 'false');
     expect(
@@ -53,10 +53,10 @@ describe('Hurtigvalg i appen', () => {
     const user = userEvent.setup();
     render(<App />);
 
-    await user.click(presetButton(/Frossenpizza/));
-    await user.click(presetButton(/Frossenpizza/));
+    await user.click(presetButton(/Pizza/));
+    await user.click(presetButton(/Pizza/));
 
-    expect(presetButton(/Frossenpizza/)).toHaveAttribute('aria-pressed', 'false');
+    expect(presetButton(/Pizza/)).toHaveAttribute('aria-pressed', 'false');
     expect(card().getByText('180 grader i 16 minutter.')).toBeInTheDocument();
   });
 
@@ -64,24 +64,24 @@ describe('Hurtigvalg i appen', () => {
     const user = userEvent.setup();
     render(<App />);
 
-    await user.click(presetButton(/Frossenpizza/));
+    await user.click(presetButton(/Pizza/));
     await user.click(screen.getByRole('button', { name: /Fjern hurtigvalg/ }));
 
     expect(card().getByText('180 grader i 16 minutter.')).toBeInTheDocument();
     expect(screen.queryByRole('button', { name: /Fjern hurtigvalg/ })).not.toBeInTheDocument();
-    expect(presetButton(/Frossenpizza/)).toHaveFocus();
+    expect(presetButton(/Pizza/)).toHaveFocus();
   });
 
   it('går tilbake til omregning når et oppskriftsfelt endres', async () => {
     const user = userEvent.setup();
     render(<App />);
 
-    await user.click(presetButton(/Frosne pommes frites/));
+    await user.click(presetButton(/Pommes frites/));
     fireEvent.change(screen.getByRole('slider', { name: 'Tid i oppskriften' }), {
       target: { value: '30' },
     });
 
-    expect(presetButton(/Frosne pommes frites/)).toHaveAttribute('aria-pressed', 'false');
+    expect(presetButton(/Pommes frites/)).toHaveAttribute('aria-pressed', 'false');
     expect(card().getByText('180 grader i 24 minutter.')).toBeInTheDocument();
   });
 

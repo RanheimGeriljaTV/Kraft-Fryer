@@ -4,7 +4,7 @@
 
 Gjør om temperatur og tid fra en vanlig stekeovnsoppskrift til airfryer-innstillinger, med hurtigvalg for populære varer og en innebygd nedtellingsklokke. Laget for å kunne brukes med én tommel på mobil.
 
-> **Status:** v0.4.0 – omregning, hurtigvalg og nedtellingsklokke virker. Neste steg er polering (0.5.0) og lansering på ranheimkraft.no (1.0.0). Se [`PLAN.md`](PLAN.md) for plan og milepæler.
+> **Status:** v0.5.0 – alle funksjoner er ferdige og polert. Neste steg er lansering på ranheimkraft.no (1.0.0). Se [`PLAN.md`](PLAN.md) for plan og milepæler.
 >
 > **Forhåndsvisning:** https://ranheimgeriljatv.github.io/Kraft-Fryer/
 
@@ -67,7 +67,24 @@ Trykk **Start nedtelling** i resultatkortet. Klokka bruker tiden fra omregningen
 
 Samme uttrykk som resten av ranheimkraft.no: mørk bakgrunn (`#08080a`), Syne og Plus Jakarta Sans, isbjørn-maskoten og oransje som aksentfarge for Kraft-Fryer.
 
-Farger og fonter er definert som tokens i [`src/index.css`](src/index.css) (`@theme`): `brand-dark`, `brand-navy`, `brand-cyan`, `accent` og `accent-strong`. Isbjørnen og faviconet i `public/` er kopiert fra nettside-repoet.
+Farger og fonter er definert som tokens i [`src/index.css`](src/index.css) (`@theme`): `brand-dark`, `brand-navy`, `brand-cyan`, `accent` og `accent-strong`. Isbjørnen, faviconet og `apple-touch-icon.png` i `public/` er kopiert fra nettside-repoet.
+
+Animasjonene er korte og rolige: resultattallene «spretter» når de endres, og varslene glir inn. Alt slås av når telefonen står på «redusert bevegelse».
+
+## Tilgjengelighet
+
+Målet er WCAG 2.1 AA.
+
+- **Kontrast:** all tekst er minst 4,5:1 mot bakgrunnen, også i de dempede oppskriftsfeltene.
+- **Trykkflater:** minst 48 × 48 px. Ingen tekstfelt.
+- **Tastatur:** alt kan styres med Tab, Enter/Mellomrom og piltaster. Fokus vises med oransje ramme.
+- **Skjermleser:** hver del har en overskrift. Nytt resultat leses opp når verdien har stått stille i 0,7 sekunder, ikke for hvert steg. Varsler leses opp straks (`role="alert"`).
+- **Talestyring:** knappenavnene er de samme som teksten på knappene.
+- **Automatisk sjekk:** [`src/a11y.test.tsx`](src/a11y.test.tsx) kjører axe-core på alle tilstander. Lighthouse (mobil): Ytelse 99, Tilgjengelighet 100, Beste praksis 100.
+
+## Statistikk
+
+Umami-hendelser (telles når appen ligger på ranheimkraft.no): `preset_<id>`, `preset_clear`, `timer_start`, `timer_restart` og `timer_keep`.
 
 ## Teknologi
 

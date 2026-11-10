@@ -113,7 +113,7 @@ export default function Timer({ settings }: Props) {
         className="flex min-h-14 w-full touch-manipulation items-center justify-center gap-2 rounded-full bg-white font-syne text-sm font-bold tracking-wider text-black uppercase transition select-none hover:bg-zinc-200 active:scale-[0.98]"
       >
         <span aria-hidden="true">▶</span>
-        Start nedtelling
+        Start nedtelling{' '}
         <span className="font-mono text-xs font-normal tracking-normal text-zinc-600 normal-case">
           {formatClock(settings.minutes * 60)}
         </span>
@@ -157,7 +157,7 @@ export default function Timer({ settings }: Props) {
       {midwayAlert && action && (
         <div
           role="alert"
-          className="flex items-center justify-between gap-3 rounded-2xl bg-accent py-1.5 pr-1.5 pl-4 text-black"
+          className="flex animate-slide-up items-center justify-between gap-3 rounded-2xl bg-accent py-1.5 pr-1.5 pl-4 text-black"
         >
           <span className="font-syne text-base font-black tracking-tight uppercase">
             <span aria-hidden="true">{MIDWAY_ICON[action]} </span>
@@ -220,7 +220,10 @@ export default function Timer({ settings }: Props) {
       </div>
 
       {settingsChanged && (
-        <div className="space-y-2 rounded-2xl border border-white/10 bg-white/[0.04] p-3">
+        <div
+          role="status"
+          className="animate-slide-up space-y-2 rounded-2xl border border-white/10 bg-white/[0.04] p-3"
+        >
           <p className="text-sm text-zinc-200">
             Innstillingene er endret til{' '}
             <strong className="text-white">{settings.minutes} min</strong>. Starte nedtellingen på
@@ -230,6 +233,7 @@ export default function Timer({ settings }: Props) {
             <button
               type="button"
               onClick={start}
+              data-umami-event="timer_restart"
               className="min-h-12 touch-manipulation rounded-full bg-accent font-syne text-xs font-bold tracking-wider text-black uppercase"
             >
               Start på nytt
@@ -237,6 +241,7 @@ export default function Timer({ settings }: Props) {
             <button
               type="button"
               onClick={() => setKeptKey(currentKey)}
+              data-umami-event="timer_keep"
               className="min-h-12 touch-manipulation rounded-full border border-white/10 font-syne text-xs font-bold tracking-wider text-zinc-200 uppercase hover:border-accent/50"
             >
               Behold

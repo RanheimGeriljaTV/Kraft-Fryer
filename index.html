@@ -4,13 +4,31 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="theme-color" content="#08080a" />
+    <meta name="color-scheme" content="dark" />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
     <title>Kraft-Fryer – stekeovn til airfryer | Ranheim Kraft</title>
     <meta
       name="description"
-      content="Gjør om temperatur og tid fra en stekeovnsoppskrift til airfryer, med hurtigvalg og nedtellingsklokke."
+      content="Gratis airfryer-kalkulator: gjør om temperatur og tid fra en stekeovnsoppskrift til airfryer, med hurtigvalg for pommes frites, kylling og laks, og nedtellingsklokke."
     />
+    <link rel="canonical" href="https://ranheimkraft.no/airfryer/" />
     <link rel="icon" type="image/x-icon" href="./polarICON.ico" />
+    <link rel="apple-touch-icon" href="./apple-touch-icon.png" />
+
+    <!-- Deling (samme bilde som ranheimkraft.no) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Ranheim Kraft" />
+    <meta property="og:locale" content="nb_NO" />
+    <meta property="og:title" content="Kraft-Fryer – stekeovn til airfryer" />
+    <meta
+      property="og:description"
+      content="Gjør om en stekeovnsoppskrift til airfryer på sekunder, med hurtigvalg og nedtellingsklokke."
+    />
+    <meta property="og:url" content="https://ranheimkraft.no/airfryer/" />
+    <meta property="og:image" content="https://ranheimkraft.no/assets/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
 
     <!-- Google Fonts: Syne & Plus Jakarta Sans (som ranheimkraft.no) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -22,6 +40,11 @@
   </head>
   <body>
     <div id="root"></div>
+    <noscript>
+      <p style="padding: 2rem; color: #e4e4e7; font-family: sans-serif">
+        Kraft-Fryer trenger JavaScript. Slå det på i nettleseren for å bruke kalkulatoren.
+      </p>
+    </noscript>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

@@ -1,5 +1,8 @@
 import { AIRFRYER_MAX_TEMP, shakeMinutesLabel } from '../lib/convert';
 import { MIDWAY_ICON, MIDWAY_VERB, type AirfryerSettings } from '../lib/settings';
+import { useAnnouncement } from '../hooks/useAnnouncement';
+
+const ANNOUNCE_DELAY_MS = 700;
 
 interface Props {
   settings: AirfryerSettings;
@@ -13,6 +16,11 @@ interface Props {
 export default function ResultCard({ settings, onClearPreset, children }: Props) {
   const { temp, minutes, capped, midway, preset } = settings;
   const midwayTime = midway && shakeMinutesLabel(midway.atSeconds);
+  const summary = `${preset ? `${preset.name}: ` : ''}${temp} grader i ${minutes} minutter.`;
+
+  // Skjermlesere får resultatet først når verdien har stått stille litt,
+  // ellers leses hvert steg opp mens man drar i slideren eller holder inne +.
+  const announcement = useAnnouncement(summary, ANNOUNCE_DELAY_MS);
 
   return (
     <section
@@ -21,6 +29,10 @@ export default function ResultCard({ settings, onClearPreset, children }: Props)
       style={{ paddingBottom: 'max(0.75rem, env(safe-area-inset-bottom))' }}
     >
       <div className="space-y-2.5">
+        <p aria-live="polite" aria-atomic="true" className="sr-only" data-testid="announcement">
+          {announcement && `Nytt resultat: ${announcement}`}
+        </p>
+
         <div className="flex min-h-6 items-center justify-between gap-2">
           {preset ? (
             <span className="flex min-w-0 items-center gap-1.5">
@@ -48,31 +60,27 @@ export default function ResultCard({ settings, onClearPreset, children }: Props)
                 </span>
               </>
             ) : (
-              <span className="text-zinc-500">Trenger ikke ristes</span>
+              <span className="text-zinc-400">Trenger ikke ristes</span>
             )}
           </span>
         </div>
 
         <div className="flex items-center gap-3">
-          <div
-            className="grid flex-1 grid-cols-2 divide-x divide-white/10"
-            aria-live="polite"
-            aria-atomic="true"
-          >
-            <span className="sr-only">
-              {preset ? `${preset.name}: ` : ''}
-              {temp} grader i {minutes} minutter.
-            </span>
+          <div className="grid flex-1 grid-cols-2 divide-x divide-white/10">
+            <span className="sr-only">{summary}</span>
+            {/* key gjør at tallet «spretter» når det endres (av ved redusert bevegelse). */}
             <div
+              key={`t${temp}`}
               aria-hidden="true"
-              className="font-syne text-4xl leading-none font-black tracking-tighter text-white tabular-nums"
+              className="animate-pop font-syne text-4xl leading-none font-black tracking-tighter text-white tabular-nums"
             >
               {temp}
               <span className="ml-1 text-lg tracking-normal text-accent">°C</span>
             </div>
             <div
+              key={`m${minutes}`}
               aria-hidden="true"
-              className="pl-4 font-syne text-4xl leading-none font-black tracking-tighter text-white tabular-nums"
+              className="animate-pop pl-4 font-syne text-4xl leading-none font-black tracking-tighter text-white tabular-nums"
             >
               {minutes}
               <span className="ml-1 text-lg tracking-normal text-accent">min</span>
@@ -83,6 +91,7 @@ export default function ResultCard({ settings, onClearPreset, children }: Props)
             <button
               type="button"
               onClick={onClearPreset}
+              data-umami-event="preset_clear"
               aria-label="Fjern hurtigvalg og gå tilbake til oppskriften"
               className="flex size-12 shrink-0 touch-manipulation items-center justify-center rounded-full border border-white/10 text-xl text-zinc-300 transition hover:border-accent/50 hover:text-white"
             >
