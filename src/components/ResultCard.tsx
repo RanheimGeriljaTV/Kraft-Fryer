@@ -1,13 +1,16 @@
-import { AIRFRYER_MAX_TEMP, shakeMinutesLabel, type ConvertResult } from '../lib/convert';
+import { AIRFRYER_MAX_TEMP, shakeMinutesLabel } from '../lib/convert';
+import { MIDWAY_ICON, MIDWAY_VERB, type AirfryerSettings } from '../lib/settings';
 
 interface Props {
-  result: ConvertResult;
+  settings: AirfryerSettings;
+  /** Vises som ×-knapp når et hurtigvalg er aktivt. */
+  onClearPreset?: () => void;
 }
 
 /** Resultatet, festet nederst på skjermen så det alltid er synlig. */
-export default function ResultCard({ result }: Props) {
-  const { airTemp, capped, airMinutes, shakeAtSeconds } = result;
-  const shake = shakeMinutesLabel(shakeAtSeconds);
+export default function ResultCard({ settings, onClearPreset }: Props) {
+  const { temp, minutes, capped, midway, preset } = settings;
+  const midwayTime = midway && shakeMinutesLabel(midway.atSeconds);
 
   return (
     <section
@@ -15,35 +18,75 @@ export default function ResultCard({ result }: Props) {
       className="sticky bottom-0 z-10 -mx-4 border-t border-white/10 bg-brand-navy/95 px-4 pt-3 shadow-[0_-12px_30px_rgba(0,0,0,0.5)] backdrop-blur-md sm:mx-0 sm:rounded-2xl sm:border"
       style={{ paddingBottom: 'max(0.75rem, env(safe-area-inset-bottom))' }}
     >
-      <div aria-live="polite" aria-atomic="true" className="space-y-2.5">
-        <div className="flex items-center justify-between gap-2">
-          <span className="font-syne text-xs font-bold tracking-wider text-accent uppercase">
-            I airfryeren
-          </span>
-          <span className="flex items-center gap-1.5 text-sm text-zinc-300">
-            <span aria-hidden="true">🔄</span>
-            <span>
-              Rist etter{' '}
-              <strong className="text-white">
-                {shake.approx ? 'ca. ' : ''}
-                {shake.minutes} min
-              </strong>
+      <div className="space-y-2.5">
+        <div className="flex min-h-6 items-center justify-between gap-2">
+          {preset ? (
+            <span className="flex min-w-0 items-center gap-1.5">
+              <span aria-hidden="true">{preset.emoji}</span>
+              <span className="truncate font-syne text-xs font-bold tracking-wider text-accent uppercase">
+                {preset.name}
+              </span>
             </span>
-          </span>
-          <span className="sr-only">
-            {airTemp} grader i {airMinutes} minutter.
+          ) : (
+            <span className="font-syne text-xs font-bold tracking-wider text-accent uppercase">
+              I airfryeren
+            </span>
+          )}
+
+          <span className="flex shrink-0 items-center gap-1.5 text-sm text-zinc-300">
+            {midway && midwayTime ? (
+              <>
+                <span aria-hidden="true">{MIDWAY_ICON[midway.action]}</span>
+                <span>
+                  {MIDWAY_VERB[midway.action]} etter{' '}
+                  <strong className="text-white">
+                    {midwayTime.approx ? 'ca. ' : ''}
+                    {midwayTime.minutes} min
+                  </strong>
+                </span>
+              </>
+            ) : (
+              <span className="text-zinc-500">Trenger ikke ristes</span>
+            )}
           </span>
         </div>
 
-        <div className="grid grid-cols-2 divide-x divide-white/10" aria-hidden="true">
-          <div className="font-syne text-4xl leading-none font-black tracking-tighter text-white tabular-nums">
-            {airTemp}
-            <span className="ml-1 text-lg tracking-normal text-accent">°C</span>
+        <div className="flex items-center gap-3">
+          <div
+            className="grid flex-1 grid-cols-2 divide-x divide-white/10"
+            aria-live="polite"
+            aria-atomic="true"
+          >
+            <span className="sr-only">
+              {preset ? `${preset.name}: ` : ''}
+              {temp} grader i {minutes} minutter.
+            </span>
+            <div
+              aria-hidden="true"
+              className="font-syne text-4xl leading-none font-black tracking-tighter text-white tabular-nums"
+            >
+              {temp}
+              <span className="ml-1 text-lg tracking-normal text-accent">°C</span>
+            </div>
+            <div
+              aria-hidden="true"
+              className="pl-4 font-syne text-4xl leading-none font-black tracking-tighter text-white tabular-nums"
+            >
+              {minutes}
+              <span className="ml-1 text-lg tracking-normal text-accent">min</span>
+            </div>
           </div>
-          <div className="pl-4 font-syne text-4xl leading-none font-black tracking-tighter text-white tabular-nums">
-            {airMinutes}
-            <span className="ml-1 text-lg tracking-normal text-accent">min</span>
-          </div>
+
+          {preset && onClearPreset && (
+            <button
+              type="button"
+              onClick={onClearPreset}
+              aria-label="Fjern hurtigvalg og gå tilbake til oppskriften"
+              className="flex size-12 shrink-0 touch-manipulation items-center justify-center rounded-full border border-white/10 text-xl text-zinc-300 transition hover:border-accent/50 hover:text-white"
+            >
+              ×
+            </button>
+          )}
         </div>
 
         {capped && (

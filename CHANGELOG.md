@@ -7,6 +7,21 @@ og prosjektet følger [Semantic Versioning](https://semver.org/lang/no/).
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-11-10
+
+### Lagt til
+
+- Hurtigvalg øverst for frosne pommes frites, kyllingbryst, laksefilet, frossenpizza og ovnsbakte rotgrønnsaker, med ferdige temperaturer og tider (`src/data/presets.ts`).
+- Resultatkortet viser varens navn, «Rist» eller «Snu» etter riktig tid, «Trenger ikke ristes» for laks og pizza, og en ×-knapp for å gå tilbake til oppskriften.
+- Felles format for resultatet (`src/lib/settings.ts`), som timeren i 0.4.0 skal bruke.
+- Umami-hendelser (`preset_<id>`) på hurtigvalgene.
+- 19 nye tester (49 totalt).
+
+### Endret
+
+- Oppskriftsfeltene dempes mens et hurtigvalg er i bruk, og enhver endring der går tilbake til omregning.
+- Teksten over oppskriftsfeltene begynner nå med «Eller …», siden hurtigvalgene står først.
+
 ## [0.2.0] - 2026-11-10
 
 ### Lagt til
@@ -48,7 +63,8 @@ og prosjektet følger [Semantic Versioning](https://semver.org/lang/no/).
 - `CLAUDE.md` med arbeidsregler for dokumentasjon, versjonering, hemmeligheter og GitHub-arbeidsflyt.
 - `README.md`, `CHANGELOG.md` og `.gitignore`.
 
-[Unreleased]: https://github.com/RanheimGeriljaTV/Kraft-Fryer/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/RanheimGeriljaTV/Kraft-Fryer/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/RanheimGeriljaTV/Kraft-Fryer/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/RanheimGeriljaTV/Kraft-Fryer/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/RanheimGeriljaTV/Kraft-Fryer/compare/v0.0.1...v0.1.0
 [0.0.1]: https://github.com/RanheimGeriljaTV/Kraft-Fryer/releases/tag/v0.0.1

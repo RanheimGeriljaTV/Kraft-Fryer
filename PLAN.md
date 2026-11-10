@@ -171,6 +171,7 @@ Kraft-Fryer/
 │  ├─ lib/
 │  │  ├─ convert.ts               # ren utregning
 │  │  ├─ convert.test.ts
+│  │  ├─ settings.ts              # felles resultatformat (omregning + hurtigvalg)
 │  │  └─ sound.ts                 # Web Audio-pip
 │  ├─ data/presets.ts
 │  ├─ index.css                   # Tailwind + @theme med merkevarefarger

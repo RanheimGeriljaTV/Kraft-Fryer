@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import PresetBar from './components/PresetBar';
 import SegmentedToggle, { type ToggleOption } from './components/SegmentedToggle';
 import Stepper from './components/Stepper';
 import ResultCard from './components/ResultCard';
+import { PRESETS, findPreset } from './data/presets';
 import {
   OVEN_MINUTES,
   OVEN_TEMP,
@@ -14,6 +16,7 @@ import {
   type Load,
   type OvenType,
 } from './lib/convert';
+import { fromConvert, fromPreset } from './lib/settings';
 
 const formatFactor = (factor: number) => `× ${factor.toFixed(2).replace('.', ',')}`;
 
@@ -36,8 +39,32 @@ export default function App() {
   const [ovenTemp, setOvenTemp] = useState<number>(OVEN_TEMP.default);
   const [ovenMinutes, setOvenMinutes] = useState<number>(OVEN_MINUTES.default);
   const [load, setLoad] = useState<Load>('normal');
+  const [presetId, setPresetId] = useState<string | null>(null);
 
-  const result = convert({ ovenType, ovenTemp, ovenMinutes, load });
+  const preset = findPreset(presetId);
+  const settings = preset
+    ? fromPreset(preset)
+    : fromConvert(convert({ ovenType, ovenTemp, ovenMinutes, load }));
+
+  /**
+   * ×-knappen forsvinner når hurtigvalget fjernes. Fokus flyttes til hurtigvalg-knappen,
+   * så tastatur- og skjermleserbrukere ikke havner på toppen av siden.
+   */
+  const clearPreset = () => {
+    const id = presetId;
+    setPresetId(null);
+    document
+      .querySelector<HTMLButtonElement>(`[data-preset-id="${id}"]`)
+      ?.focus({ preventScroll: true });
+  };
+
+  /** Enhver endring i oppskriftsfeltene går tilbake til omregning. */
+  const edit =
+    <T,>(setter: (value: T) => void) =>
+    (value: T) => {
+      setPresetId(null);
+      setter(value);
+    };
 
   return (
     <div
@@ -50,52 +77,58 @@ export default function App() {
       <Header />
 
       <main className="flex flex-1 flex-col gap-5">
-        <p className="text-sm leading-relaxed text-zinc-400">
-          Skriv inn det som står i stekeovnsoppskriften, så regner vi om til airfryer.
-        </p>
+        <PresetBar presets={PRESETS} activeId={presetId} onSelect={setPresetId} />
 
-        <SegmentedToggle
-          index={1}
-          label="Ovnstype i oppskriften"
-          options={OVEN_OPTIONS}
-          value={ovenType}
-          onChange={setOvenType}
-        />
+        <div className={`flex flex-col gap-5 transition-opacity ${preset ? 'opacity-60' : ''}`}>
+          <p className="text-sm leading-relaxed text-zinc-400">
+            {preset
+              ? 'Hurtigvalg er i bruk. Endrer du noe under, regner vi om oppskriften i stedet.'
+              : 'Eller skriv inn det som står i stekeovnsoppskriften, så regner vi om til airfryer.'}
+          </p>
 
-        <Stepper
-          index={2}
-          label="Temperatur i oppskriften"
-          name="Temperatur i oppskriften"
-          value={ovenTemp}
-          min={OVEN_TEMP.min}
-          max={OVEN_TEMP.max}
-          step={OVEN_TEMP.step}
-          unit="°C"
-          onChange={setOvenTemp}
-        />
+          <SegmentedToggle
+            index={1}
+            label="Ovnstype i oppskriften"
+            options={OVEN_OPTIONS}
+            value={ovenType}
+            onChange={edit(setOvenType)}
+          />
 
-        <Stepper
-          index={3}
-          label="Tid i oppskriften"
-          name="Tid i oppskriften"
-          value={ovenMinutes}
-          min={OVEN_MINUTES.min}
-          max={OVEN_MINUTES.max}
-          step={OVEN_MINUTES.step}
-          unit="min"
-          quickValues={QUICK_MINUTES}
-          onChange={setOvenMinutes}
-        />
+          <Stepper
+            index={2}
+            label="Temperatur i oppskriften"
+            name="Temperatur i oppskriften"
+            value={ovenTemp}
+            min={OVEN_TEMP.min}
+            max={OVEN_TEMP.max}
+            step={OVEN_TEMP.step}
+            unit="°C"
+            onChange={edit(setOvenTemp)}
+          />
 
-        <SegmentedToggle
-          index={4}
-          label="Mengde i kurven"
-          options={LOAD_OPTIONS}
-          value={load}
-          onChange={setLoad}
-        />
+          <Stepper
+            index={3}
+            label="Tid i oppskriften"
+            name="Tid i oppskriften"
+            value={ovenMinutes}
+            min={OVEN_MINUTES.min}
+            max={OVEN_MINUTES.max}
+            step={OVEN_MINUTES.step}
+            unit="min"
+            quickValues={QUICK_MINUTES}
+            onChange={edit(setOvenMinutes)}
+          />
 
-        <ResultCard result={result} />
+          <SegmentedToggle
+            index={4}
+            label="Mengde i kurven"
+            options={LOAD_OPTIONS}
+            value={load}
+            onChange={edit(setLoad)}
+          />
+        </div>
+
+        <ResultCard settings={settings} onClearPreset={clearPreset} />
       </main>
 
       <Footer />

@@ -1,5 +1,6 @@
 interface Props {
-  index: number;
+  /** Nummer foran etiketten («01 / …»). Utelates for etiketter uten nummer. */
+  index?: number;
   children: React.ReactNode;
   id?: string;
 }
@@ -8,7 +9,8 @@ interface Props {
 export default function SectionLabel({ index, children, id }: Props) {
   return (
     <span id={id} className="font-syne text-xs font-bold tracking-wider text-zinc-400 uppercase">
-      {String(index).padStart(2, '0')} / {children}
+      {index !== undefined && `${String(index).padStart(2, '0')} / `}
+      {children}
     </span>
   );
 }

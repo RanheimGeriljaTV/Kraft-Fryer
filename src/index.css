@@ -42,6 +42,15 @@
   }
 }
 
+/* Skjul rullefelt på sveipbare rader (som på ranheimkraft.no). */
+@utility no-scrollbar {
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 /*
  * Slider med tykk spor og stor «thumb» (minst 28 px) for tommelstyring.
  * --fill settes fra komponenten og farger sporet frem til verdien.

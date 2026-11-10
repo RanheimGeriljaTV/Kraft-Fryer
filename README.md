@@ -4,7 +4,7 @@
 
 Gjør om temperatur og tid fra en vanlig stekeovnsoppskrift til airfryer-innstillinger, med hurtigvalg for populære varer og en innebygd nedtellingsklokke. Laget for å kunne brukes med én tommel på mobil.
 
-> **Status:** v0.2.0 – omregningen virker. Hurtigvalg kommer i 0.3.0 og nedtellingsklokke i 0.4.0. Se [`PLAN.md`](PLAN.md) for plan og milepæler.
+> **Status:** v0.3.0 – omregning og hurtigvalg virker. Nedtellingsklokken kommer i 0.4.0. Se [`PLAN.md`](PLAN.md) for plan og milepæler.
 >
 > **Forhåndsvisning:** https://ranheimgeriljatv.github.io/Kraft-Fryer/
 
@@ -27,9 +27,24 @@ Standardverdier: over-/undervarme, 200 °C, 20 min, ett lag → 180 °C i 16 min
 
 Logikken ligger i [`src/lib/convert.ts`](src/lib/convert.ts) og er testet i [`convert.test.ts`](src/lib/convert.test.ts).
 
+### Hurtigvalg (ferdig)
+
+En sveipbar rad øverst gir ferdige airfryer-innstillinger med ett trykk, for varer uten oppskrift:
+
+| Vare                           | Temp   | Tid    | Halvveis         |
+| ------------------------------ | ------ | ------ | ---------------- |
+| 🍟 Frosne pommes frites        | 200 °C | 16 min | Rist etter 8 min |
+| 🍗 Kyllingbryst                | 180 °C | 18 min | Snu etter 10 min |
+| 🐟 Laksefilet                  | 180 °C | 10 min | –                |
+| 🍕 Frossenpizza / pizzastykker | 180 °C | 8 min  | –                |
+| 🥕 Ovnsbakte rotgrønnsaker     | 190 °C | 15 min | Rist etter 7 min |
+
+- Resultatkortet viser varens navn og en ×-knapp for å gå tilbake til oppskriften.
+- Oppskriftsfeltene dempes mens et hurtigvalg er i bruk. Endrer du noe der, eller trykker på hurtigvalget igjen, går appen tilbake til omregning. Verdiene du hadde skrevet inn, beholdes.
+- Varene ligger i [`src/data/presets.ts`](src/data/presets.ts). Legg til en ny ved å legge til et objekt i listen.
+
 ### Planlagt
 
-- **Hurtigvalg:** pommes frites, kyllingbryst, laksefilet, frossenpizza og rotgrønnsaker
 - **Nedtellingsklokke** med lyd, vibrasjon og visuelt varsel halvveis og når maten er ferdig
 
 ## Design

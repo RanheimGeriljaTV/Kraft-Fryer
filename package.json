@@ -1,6 +1,6 @@
 {
   "name": "kraft-fryer",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": true,
   "description": "Stekeovn til airfryer-kalkulator for ranheimkraft.no",
   "type": "module",
