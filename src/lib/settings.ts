@@ -10,6 +10,8 @@ export interface AirfryerSettings {
   minutes: number;
   /** true når temperaturen ble kuttet til airfryerens maksgrense. */
   capped: boolean;
+  /** Prosent tiden er økt for å veie opp for kuttet (0 uten kutt). */
+  timeBoostPercent?: number;
   /** Halvveis-varsel. null betyr at maten ikke trenger å ristes eller snus. */
   midway: { action: MidwayAction; atSeconds: number } | null;
   /** Satt når verdiene kommer fra et hurtigvalg. */
@@ -25,6 +27,7 @@ export function fromConvert(result: ConvertResult): AirfryerSettings {
     temp: result.airTemp,
     minutes: result.airMinutes,
     capped: result.capped,
+    timeBoostPercent: result.timeBoostPercent,
     midway: { action: 'shake', atSeconds: result.shakeAtSeconds },
   };
 }

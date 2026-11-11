@@ -18,7 +18,7 @@ interface Props {
  * går, tar nedtellingen plassen til tallene (som flyttes opp i toppraden).
  */
 export default function ResultCard({ settings, onClearPreset }: Props) {
-  const { temp, minutes, capped, midway, preset, note } = settings;
+  const { temp, minutes, capped, timeBoostPercent, midway, preset, note } = settings;
   const timer = useAirfryerTimer(settings);
   const timerShown = timer.active || timer.status === 'done';
   const midwayTime = midway && shakeMinutesLabel(midway.atSeconds);
@@ -134,7 +134,10 @@ export default function ResultCard({ settings, onClearPreset }: Props) {
         {!timerShown && capped && (
           <p role="note" className="flex gap-2 text-xs leading-relaxed text-orange-200/90">
             <span aria-hidden="true">⚠️</span>
-            <span>Kuttet til {AIRFRYER_MAX_TEMP} °C, som er maks på de fleste airfryere.</span>
+            <span>
+              Maks {AIRFRYER_MAX_TEMP} °C på de fleste airfryere
+              {timeBoostPercent ? ` – tiden er økt ${timeBoostPercent} % for å veie opp` : ''}.
+            </span>
           </p>
         )}
 

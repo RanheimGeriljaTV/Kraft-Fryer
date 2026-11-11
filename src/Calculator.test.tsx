@@ -86,8 +86,10 @@ describe('Kalkulator', () => {
       target: { value: '250' },
     });
 
-    expectResult(200, 16);
+    // Ønsket 230 °C kuttes til 200 °C, så 16 min økes med 23 % til 20 min.
+    expectResult(200, 20);
     expect(screen.getByRole('note')).toHaveTextContent('200 °C');
+    expect(screen.getByRole('note')).toHaveTextContent('tiden er økt 23 %');
   });
 
   it('deaktiverer + ved maks og − ved min', () => {

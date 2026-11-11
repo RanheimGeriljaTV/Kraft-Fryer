@@ -4,7 +4,7 @@
 
 Gjør om temperatur og tid fra en vanlig stekeovnsoppskrift til airfryer-innstillinger, med hurtigvalg for populære varer og en innebygd nedtellingsklokke. Laget for å kunne brukes med én tommel på mobil.
 
-> **Status:** v1.1.0 – live på **https://ranheimkraft.no/airfryer/** (nettsiden henter nye versjoner innen 3 timer). Se [`PLAN.md`](PLAN.md) for plan og milepæler.
+> **Status:** v1.2.0 – live på **https://ranheimkraft.no/airfryer/** (nettsiden henter nye versjoner innen 3 timer). Se [`PLAN.md`](PLAN.md) for plan og milepæler.
 >
 > **Forhåndsvisning:** https://ranheimgeriljatv.github.io/Kraft-Fryer/
 
@@ -17,9 +17,11 @@ Resultatet oppdateres med en gang du endrer noe, uten «Beregn»-knapp. Det ligg
 | Input                    | Styring                                                          | Regel                                                          |
 | ------------------------ | ---------------------------------------------------------------- | -------------------------------------------------------------- |
 | Ovnstype                 | To store valgknapper (piltaster virker)                          | Over-/undervarme −20 °C, varmluft −10 °C                       |
-| Temperatur i oppskriften | −/+ (steg 5 °C, holdes inne for å gå fort) og slider, 150–250 °C | Maks 200 °C i airfryeren, med notis når den kuttes             |
+| Temperatur i oppskriften | −/+ (steg 5 °C, holdes inne for å gå fort) og slider, 150–250 °C | Maks 200 °C i airfryeren. Kuttes den, økes tiden (se under)    |
 | Tid i oppskriften        | −/+ (steg 1 min), slider 5–90 min og hurtigknapper 15/20/30/45   | × 0,80 for ett lag, × 0,90 for full kurv, nærmeste hele minutt |
 | Mengde i kurven          | To store valgknapper                                             | Se tid                                                         |
+
+**Over 200 °C:** de fleste airfryere går ikke høyere, så temperaturen kuttes til 200 °C, og tiden økes for å veie opp: × (ønsket − 70) / (200 − 70). For eksempel gir ønsket 230 °C ca. 23 % lengre tid. Notisen i resultatkortet viser hvor mye tiden er økt. Se [`PLAN.md`](PLAN.md), avsnitt 5.
 
 **Ristevarsel** vises etter halve den nye tiden («ca.» når halvtiden ikke er et helt minutt).
 
@@ -31,7 +33,7 @@ Reglene er tommelfingerregler, og vanlige kilder anbefaler omtrent det samme (�
 
 ### Hurtigvalg (ferdig)
 
-En sveipbar rad øverst gir ferdige airfryer-innstillinger med ett trykk, for varer uten oppskrift:
+Et rutenett med små bokser øverst (3 i bredden, alle synlige uten sveiping) gir ferdige airfryer-innstillinger med ett trykk, for varer uten oppskrift:
 
 | Vare                           | Temp   | Tid       | Halvveis         |
 | ------------------------------ | ------ | --------- | ---------------- |

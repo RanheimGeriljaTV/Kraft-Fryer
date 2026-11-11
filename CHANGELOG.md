@@ -7,6 +7,19 @@ og prosjektet følger [Semantic Versioning](https://semver.org/lang/no/).
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-11-11
+
+### Endret
+
+- **Lengre tid når temperaturen kuttes til 200 °C.** Før ble bare temperaturen kuttet, og tiden var den samme, så maten kunne bli for lite stekt ved oppskrifter over 220 °C. Nå ganges tiden med (ønsket − 70) / (200 − 70): for eksempel +23 % ved ønsket 230 °C og +31 % ved 240 °C. Notisen sier hvor mye tiden er økt.
+- **Hurtigvalgene er et rutenett med små bokser** (3 i bredden) i stedet for en sveipbar rad med brede knapper. Alle seks synes med en gang, og nye varer gir bare en ny rad.
+- Nedtellingen spør om omstart også når tiden endres fordi temperaturen kuttes.
+
+### Lagt til
+
+- `capTimeFactor()`, `wantedTemp` og `timeBoostPercent` i `src/lib/convert.ts`, med 5 nye tester (87 totalt).
+- `PLAN.md` forklarer modellen for tidsøkningen, med tabell.
+
 ## [1.1.0] - 2026-11-11
 
 ### Lagt til
@@ -135,7 +148,8 @@ og prosjektet følger [Semantic Versioning](https://semver.org/lang/no/).
 - `CLAUDE.md` med arbeidsregler for dokumentasjon, versjonering, hemmeligheter og GitHub-arbeidsflyt.
 - `README.md`, `CHANGELOG.md` og `.gitignore`.
 
-[Unreleased]: https://github.com/RanheimGeriljaTV/Kraft-Fryer/compare/v1.1.0...HEAD
+[Unreleased]: https://github.com/RanheimGeriljaTV/Kraft-Fryer/compare/v1.2.0...HEAD
+[1.2.0]: https://github.com/RanheimGeriljaTV/Kraft-Fryer/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/RanheimGeriljaTV/Kraft-Fryer/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/RanheimGeriljaTV/Kraft-Fryer/compare/v0.5.0...v1.0.0
 [0.5.0]: https://github.com/RanheimGeriljaTV/Kraft-Fryer/compare/v0.4.0...v0.5.0

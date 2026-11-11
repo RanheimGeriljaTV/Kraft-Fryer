@@ -16,6 +16,10 @@ export interface ConvertInput {
 export interface ConvertResult {
   airTemp: number; // °C, maks AIRFRYER_MAX_TEMP
   capped: boolean; // true hvis temperaturen ble kuttet til maksgrensen
+  /** Ønsket temperatur før kuttet (lik airTemp når den ikke er kuttet). */
+  wantedTemp: number;
+  /** Hvor mange prosent tiden er økt for å veie opp for kuttet (0 uten kutt). */
+  timeBoostPercent: number;
   airMinutes: number; // hele minutter, minst 1
   shakeAtSeconds: number; // 50 % av ny tid, i sekunder
 }
@@ -38,21 +42,46 @@ export const TIME_FACTOR: Record<Load, number> = {
   full: 0.9,
 };
 
+/**
+ * Omtrent temperaturen maten skal opp i (kjerne/overflate). Brukes til å regne ut
+ * hvor mye lengre tid det tar når lufta er kaldere enn oppskriften ville hatt.
+ */
+export const FOOD_TARGET_TEMP = 70;
+
 export const clamp = (value: number, min: number, max: number) =>
   Math.min(max, Math.max(min, value));
 
+/**
+ * Tidsfaktor når temperaturen kuttes. Varme overføres omtrent i takt med forskjellen
+ * mellom lufta og maten, så tiden økes med forholdet mellom de to forskjellene:
+ * (ønsket − 70) / (200 − 70). Eksempel: ønsket 230 °C → 160 / 130 = ×1,23.
+ * Gir ×1 når det ikke er kuttet, så kurven er sammenhengende ved grensen.
+ */
+export function capTimeFactor(wantedTemp: number, airTemp: number): number {
+  if (wantedTemp <= airTemp) return 1;
+  return (wantedTemp - FOOD_TARGET_TEMP) / (airTemp - FOOD_TARGET_TEMP);
+}
+
 export function convert({ ovenType, ovenTemp, ovenMinutes, load }: ConvertInput): ConvertResult {
-  const reduced = ovenTemp - TEMP_REDUCTION[ovenType];
-  const capped = reduced > AIRFRYER_MAX_TEMP;
-  const airTemp = capped ? AIRFRYER_MAX_TEMP : reduced;
+  const wantedTemp = ovenTemp - TEMP_REDUCTION[ovenType];
+  const capped = wantedTemp > AIRFRYER_MAX_TEMP;
+  const airTemp = capped ? AIRFRYER_MAX_TEMP : wantedTemp;
+  const boost = capTimeFactor(wantedTemp, airTemp);
 
   // Avrunder til to desimaler først, så flyttallsfeil (f.eks. 15 × 0,9 = 13,499…)
   // ikke gir feil avrunding til nærmeste minutt.
-  const exactMinutes = Math.round(ovenMinutes * TIME_FACTOR[load] * 100) / 100;
+  const exactMinutes = Math.round(ovenMinutes * TIME_FACTOR[load] * boost * 100) / 100;
   const airMinutes = Math.max(1, Math.round(exactMinutes));
   const shakeAtSeconds = (airMinutes * 60) / 2;
 
-  return { airTemp, capped, airMinutes, shakeAtSeconds };
+  return {
+    airTemp,
+    capped,
+    wantedTemp,
+    timeBoostPercent: Math.round((boost - 1) * 100),
+    airMinutes,
+    shakeAtSeconds,
+  };
 }
 
 /** «Rist etter ca. X min» – halvtid avrundet til nærmeste minutt, minst 1. */

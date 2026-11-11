@@ -1,23 +1,87 @@
-import { AIRFRYER_MAX_TEMP, clamp, convert, shakeMinutesLabel } from './convert';
+import { AIRFRYER_MAX_TEMP, capTimeFactor, clamp, convert, shakeMinutesLabel } from './convert';
 
 describe('convert – eksemplene i PLAN.md', () => {
   it.each([
-    // ovnstype, temp, tid, mengde → temp, kuttet, tid, ristesekunder
-    ['conventional', 200, 30, 'normal', 180, false, 24, 720],
-    ['fan', 200, 30, 'full', 190, false, 27, 810],
-    ['conventional', 250, 15, 'normal', 200, true, 12, 360],
-    ['fan', 150, 5, 'normal', 140, false, 4, 120],
+    // ovnstype, temp, tid, mengde → temp, kuttet, ønsket, +%, tid, ristesekunder
+    ['conventional', 200, 30, 'normal', 180, false, 180, 0, 24, 720],
+    ['fan', 200, 30, 'full', 190, false, 190, 0, 27, 810],
+    ['conventional', 250, 15, 'normal', 200, true, 230, 23, 15, 450],
+    ['fan', 150, 5, 'normal', 140, false, 140, 0, 4, 120],
   ] as const)(
     '%s %i °C %i min (%s) → %i °C',
-    (ovenType, ovenTemp, ovenMinutes, load, airTemp, capped, airMinutes, shakeAtSeconds) => {
+    (
+      ovenType,
+      ovenTemp,
+      ovenMinutes,
+      load,
+      airTemp,
+      capped,
+      wantedTemp,
+      timeBoostPercent,
+      airMinutes,
+      shakeAtSeconds,
+    ) => {
       expect(convert({ ovenType, ovenTemp, ovenMinutes, load })).toEqual({
         airTemp,
         capped,
+        wantedTemp,
+        timeBoostPercent,
         airMinutes,
         shakeAtSeconds,
       });
     },
   );
+});
+
+describe('convert – lengre tid når temperaturen kuttes', () => {
+  it('gir ×1 uten kutt og øker jevnt fra grensen', () => {
+    expect(capTimeFactor(180, 180)).toBe(1);
+    expect(capTimeFactor(200, 200)).toBe(1);
+    expect(capTimeFactor(205, 200)).toBeCloseTo(135 / 130);
+    expect(capTimeFactor(230, 200)).toBeCloseTo(160 / 130);
+  });
+
+  it('øker tiden ca. 23 % når 230 °C kuttes til 200 °C', () => {
+    // 250 °C over-/undervarme, 20 min: 16 min × 1,23 = 19,7 → 20 min
+    const result = convert({
+      ovenType: 'conventional',
+      ovenTemp: 250,
+      ovenMinutes: 20,
+      load: 'normal',
+    });
+    expect(result).toMatchObject({ airTemp: 200, wantedTemp: 230, timeBoostPercent: 23 });
+    expect(result.airMinutes).toBe(20);
+  });
+
+  it('øker mest ved 250 °C varmluft (ønsket 240 °C, +31 %)', () => {
+    // 20 min × 0,8 = 16 min × 170/130 = 20,9 → 21 min
+    const result = convert({ ovenType: 'fan', ovenTemp: 250, ovenMinutes: 20, load: 'normal' });
+    expect(result).toMatchObject({ wantedTemp: 240, timeBoostPercent: 31, airMinutes: 21 });
+  });
+
+  it('endrer ikke tiden når temperaturen er nøyaktig 200 °C', () => {
+    const result = convert({
+      ovenType: 'conventional',
+      ovenTemp: 220,
+      ovenMinutes: 20,
+      load: 'normal',
+    });
+    expect(result).toMatchObject({ timeBoostPercent: 0, airMinutes: 16 });
+  });
+
+  it('gir aldri kortere tid med høyere temperatur i oppskriften', () => {
+    let previous = 0;
+    for (let temp = 150; temp <= 250; temp += 5) {
+      const { airMinutes } = convert({
+        ovenType: 'conventional',
+        ovenTemp: temp,
+        ovenMinutes: 30,
+        load: 'normal',
+      });
+      expect(airMinutes).toBeGreaterThanOrEqual(previous);
+      previous = airMinutes;
+    }
+  });
 });
 
 describe('convert – temperatur', () => {

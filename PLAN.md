@@ -60,7 +60,7 @@ Fargene og fontene legges som tokens i `src/index.css` (Tailwind v4 `@theme`), s
 
 Én kolonne, maks bredde ca. 480 px sentrert på desktop. Rekkefølge fra topp til bunn:
 
-1. **Hurtigvalg** – horisontalt sveipbar rad (`no-scrollbar`) med store chips (ikon + navn).
+1. **Hurtigvalg** – rutenett med små bokser, 3 i bredden (ikon, navn, temp og tid). Alle synes uten sveiping, og nye varer gir en ny rad.
 2. **Ovnstype** – segmentert toggle: `Over-/undervarme` (standard) | `Varmluft`.
 3. **Temperatur i oppskrift** – stor verdi i Syne (f.eks. «200 °C») med `−` / `+`-knapper (steg 5 °C) og en slider under (150–250 °C).
 4. **Tid i oppskrift** – stor verdi med `−` / `+` (steg 1 min), slider (5–90 min) og hurtigknapper `15` `20` `30` `45`.
@@ -98,7 +98,8 @@ convert({ ovenType, ovenTemp, ovenMinutes, load }) => {
 | ---------------------------- | ----------------------------------------------------------------------------------- |
 | Temperatur, over-/undervarme | oppskrift − 20 °C                                                                   |
 | Temperatur, varmluft         | oppskrift − 10 °C                                                                   |
-| Maksgrense                   | 200 °C, viser notis: «De fleste airfryere går maks til 200 °C»                      |
+| Maksgrense                   | 200 °C. Notis: «Maks 200 °C på de fleste airfryere – tiden er økt X %»              |
+| Tid ved kuttet temperatur    | × (ønsket − 70) / (200 − 70), se under                                              |
 | Tid, normalt (1 lag)         | oppskrift × 0,80                                                                    |
 | Tid, full kurv               | oppskrift × 0,90                                                                    |
 | Avrunding av tid             | `Math.round` til nærmeste hele minutt, minst 1 min                                  |
@@ -106,12 +107,28 @@ convert({ ovenType, ovenTemp, ovenMinutes, load }) => {
 
 **Eksempler (blir testtilfeller)**
 
-| Ovn              | Temp   | Tid    | Mengde | → Airfryer                                |
-| ---------------- | ------ | ------ | ------ | ----------------------------------------- |
-| Over-/undervarme | 200 °C | 30 min | Normal | 180 °C, 24 min, rist etter 12 min         |
-| Varmluft         | 200 °C | 30 min | Full   | 190 °C, 27 min, rist etter ca. 14 min     |
-| Over-/undervarme | 250 °C | 15 min | Normal | 200 °C (kuttet), 12 min, rist etter 6 min |
-| Varmluft         | 150 °C | 5 min  | Normal | 140 °C, 4 min, rist etter 2 min           |
+| Ovn              | Temp   | Tid    | Mengde | → Airfryer                                           |
+| ---------------- | ------ | ------ | ------ | ---------------------------------------------------- |
+| Over-/undervarme | 200 °C | 30 min | Normal | 180 °C, 24 min, rist etter 12 min                    |
+| Varmluft         | 200 °C | 30 min | Full   | 190 °C, 27 min, rist etter ca. 14 min                |
+| Over-/undervarme | 250 °C | 15 min | Normal | 200 °C (kuttet, +23 %), 15 min, rist etter ca. 8 min |
+| Varmluft         | 150 °C | 5 min  | Normal | 140 °C, 4 min, rist etter 2 min                      |
+
+**Lengre tid når temperaturen kuttes til 200 °C (fra v1.2.0)**
+
+De fleste airfryere går maks til 200 °C. Ønsker oppskriften mer (over 220 °C med over-/undervarme, over 210 °C med varmluft), tar maten lengre tid. Varme overføres omtrent i takt med forskjellen mellom lufta og maten, som skal opp i ca. 70 °C. Tiden ganges derfor med
+
+`(ønsket temperatur − 70) / (200 − 70)`
+
+| Ønsket i airfryer | Tidsfaktor |
+| ----------------- | ---------- |
+| 200 °C            | ×1,00      |
+| 210 °C            | ×1,08      |
+| 220 °C            | ×1,15      |
+| 230 °C            | ×1,23      |
+| 240 °C            | ×1,31      |
+
+Dette er en forenklet modell, ikke en målt sannhet. `FOOD_TARGET_TEMP` i `src/lib/convert.ts` styrer den.
 
 **Hvor reglene kommer fra (kontrollert november 2026)**
 
