@@ -48,6 +48,10 @@ export default function Header() {
             <span className="bg-gradient-to-r from-orange-300 via-accent to-accent-strong bg-clip-text text-transparent">
               Fryer
             </span>
+            <span className="sr-only">
+              {' '}
+              – stekeovn til airfryer, omregning av tid og temperatur
+            </span>
           </h1>
           <p className="mt-1.5 text-xs text-zinc-400 sm:text-sm">Fra stekeovn til airfryer</p>
         </div>

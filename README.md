@@ -4,7 +4,7 @@
 
 Gjør om temperatur og tid fra en vanlig stekeovnsoppskrift til airfryer-innstillinger, med hurtigvalg for populære varer og en innebygd nedtellingsklokke. Laget for å kunne brukes med én tommel på mobil.
 
-> **Status:** v1.2.0 – live på **https://ranheimkraft.no/airfryer/** (nettsiden henter nye versjoner innen 3 timer). Se [`PLAN.md`](PLAN.md) for plan og milepæler.
+> **Status:** v1.3.0 – live på **https://ranheimkraft.no/airfryer/** (nettsiden henter nye versjoner innen 3 timer). Se [`PLAN.md`](PLAN.md) for plan og milepæler.
 >
 > **Forhåndsvisning:** https://ranheimgeriljatv.github.io/Kraft-Fryer/
 
@@ -87,6 +87,18 @@ Målet er WCAG 2.1 AA.
 - **Skjermleser:** hver del har en overskrift. Nytt resultat leses opp når verdien har stått stille i 0,7 sekunder, ikke for hvert steg. Varsler leses opp straks (`role="alert"`).
 - **Talestyring:** knappenavnene er de samme som teksten på knappene.
 - **Automatisk sjekk:** [`src/a11y.test.tsx`](src/a11y.test.tsx) kjører axe-core på alle tilstander. Lighthouse (mobil): Ytelse 99, Tilgjengelighet 100, Beste praksis 100.
+
+## Søkeord
+
+Siden skal vinne disse presise søkene (se CLAUDE.md, avsnitt 2c):
+
+1. stekeovn til airfryer omregning
+2. oppskrift fra stekeovn til airfryer tid og temperatur
+3. airfryer kalkulator
+4. hvor lenge egg i airfryer
+5. airfryer temperatur 200 grader stekeovn
+
+Ordene brukes i `<title>`, `<meta name="description">`, `<h1>` (skjult tilleggstekst), «Spørsmål og svar» og JSON-LD i [`index.html`](index.html). Spørsmålene ligger i [`src/data/faq.ts`](src/data/faq.ts), og [`src/seo.test.ts`](src/seo.test.ts) sjekker at tittel, beskrivelse, canonical, Open Graph og JSON-LD følger reglene, og at FAQPage er lik teksten på siden.
 
 ## Statistikk
 

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import Faq from './components/Faq';
 import PresetBar from './components/PresetBar';
 import SegmentedToggle, { type ToggleOption } from './components/SegmentedToggle';
 import Stepper from './components/Stepper';
@@ -133,6 +134,8 @@ export default function App() {
 
         <ResultCard settings={settings} onClearPreset={clearPreset} />
       </main>
+
+      <Faq />
 
       <Footer />
     </div>

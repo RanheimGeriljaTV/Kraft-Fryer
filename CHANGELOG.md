@@ -7,6 +7,21 @@ og prosjektet følger [Semantic Versioning](https://semver.org/lang/no/).
 
 ## [Unreleased]
 
+## [1.3.0] - 2026-11-11
+
+### Lagt til
+
+- Avsnitt «2c. Synlighet på Google (SEO)» i `CLAUDE.md`, hentet fra malen i nettside-repoet.
+- «Spørsmål og svar» under kalkulatoren (5 spørsmål, `src/data/faq.ts`), som sammenleggbare avsnitt.
+- JSON-LD i `index.html`: `WebApplication` og `FAQPage` med samme tekst som på siden.
+- Avsnittet «Søkeord» i README, og `src/seo.test.ts` som sjekker reglene (tittel ≤ 60 tegn, beskrivelse 120–155 tegn, canonical, Open Graph, JSON-LD).
+- 6 nye tester (93 totalt).
+
+### Endret
+
+- `<title>` er «Stekeovn til airfryer: tid og temperatur | Ranheim Kraft», og beskrivelsen og Open Graph-tekstene bruker de samme søkeordene og sier at det er gratis.
+- `<h1>` har skjult tilleggstekst med søkeordene (utseendet er uendret), og `<noscript>`-teksten forklarer regelen.
+
 ## [1.2.0] - 2026-11-11
 
 ### Endret
@@ -148,7 +163,8 @@ og prosjektet følger [Semantic Versioning](https://semver.org/lang/no/).
 - `CLAUDE.md` med arbeidsregler for dokumentasjon, versjonering, hemmeligheter og GitHub-arbeidsflyt.
 - `README.md`, `CHANGELOG.md` og `.gitignore`.
 
-[Unreleased]: https://github.com/RanheimGeriljaTV/Kraft-Fryer/compare/v1.2.0...HEAD
+[Unreleased]: https://github.com/RanheimGeriljaTV/Kraft-Fryer/compare/v1.3.0...HEAD
+[1.3.0]: https://github.com/RanheimGeriljaTV/Kraft-Fryer/compare/v1.2.0...v1.3.0
 [1.2.0]: https://github.com/RanheimGeriljaTV/Kraft-Fryer/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/RanheimGeriljaTV/Kraft-Fryer/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/RanheimGeriljaTV/Kraft-Fryer/compare/v0.5.0...v1.0.0

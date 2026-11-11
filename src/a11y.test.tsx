@@ -75,6 +75,7 @@ describe('Skjermleser', () => {
       '02 / Temperatur i oppskriften',
       '03 / Tid i oppskriften',
       '04 / Mengde i kurven',
+      'Spørsmål og svar',
     ]);
   });
 
