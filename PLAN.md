@@ -65,11 +65,11 @@ Fargene og fontene legges som tokens i `src/index.css` (Tailwind v4 `@theme`), s
 3. **Temperatur i oppskrift** – stor verdi i Syne (f.eks. «200 °C») med `−` / `+`-knapper (steg 5 °C) og en slider under (150–250 °C).
 4. **Tid i oppskrift** – stor verdi med `−` / `+` (steg 1 min), slider (5–90 min) og hurtigknapper `15` `20` `30` `45`.
 5. **Mengde i kurven** – segmentert valg: `Normalt (1 lag)` | `Full kurv / Mye mat`.
-6. **Resultatkort** – fast nederst på skjermen (sticky), alltid synlig:
-   - Airfryer-temperatur og tid i stor skrift
-   - «Rist kurven etter X min»
-   - Notis ved maksgrense på 200 °C
-   - Knappen **Start nedtelling**
+6. **Resultatkort** – fast nederst på skjermen (sticky), alltid synlig, og holdt lavt (ca. 100 px):
+   - Toppraden: «I airfryeren» eller varenavn (med × for å fjerne hurtigvalget), og «Rist etter X min»
+   - Airfryer-temperatur og tid i stor skrift, med en liten startknapp (▶ 16:00) på samme rad
+   - Mens klokka går, tar nedtellingen plassen til tallene, og temperatur og tid flyttes opp i toppraden
+   - Notis ved maksgrense på 200 °C og tips fra hurtigvalget, på én linje
 
 **Touch-krav**
 
@@ -113,17 +113,27 @@ convert({ ovenType, ovenTemp, ovenMinutes, load }) => {
 | Over-/undervarme | 250 °C | 15 min | Normal | 200 °C (kuttet), 12 min, rist etter 6 min |
 | Varmluft         | 150 °C | 5 min  | Normal | 140 °C, 4 min, rist etter 2 min           |
 
+**Hvor reglene kommer fra (kontrollert november 2026)**
+
+- Kildene er enige om at tiden kortes med ca. 20 % (×0,80). Det stemmer med «Normalt (1 lag)».
+- For temperaturen anbefaler de fleste ca. −15 °C (25 °F) fra en vanlig ovn, mens noen sier −10 °C. Appen bruker −20 °C for over-/undervarme og −10 °C for varmluft, altså litt forsiktigere enn snittet for over-/undervarme.
+- Alle kilder sier at dette er et utgangspunkt: sjekk maten litt før tiden er ute.
+- Kilder: [The Country Cook](https://www.thecountrycook.net/how-to-convert-oven-recipes-to-air-fryer-recipes/), [SBS Food](https://www.sbs.com.au/food/article/2022/11/28/how-convert-any-baked-or-fried-recipe-airfryer-cook-time), [Instacart](https://company.instacart.com/ideas/oven-to-air-fryer-conversion), [Philips Danmark](https://home-appliances.philips/dk/da/u/kitchen-appliances/airfryers).
+
 ## 6. Hurtigvalg (presets)
 
 Data i `src/data/presets.ts`. Et hurtigvalg viser ferdige airfryer-verdier direkte og hopper over omregningen.
 
-| Vare                        | Temp   | Tid    | Rist/snu         |
-| --------------------------- | ------ | ------ | ---------------- |
-| Frosne pommes frites        | 200 °C | 16 min | Rist etter 8 min |
-| Kyllingbryst                | 180 °C | 18 min | Snu etter 10 min |
-| Laksefilet                  | 180 °C | 10 min | –                |
-| Frossenpizza / pizzastykker | 180 °C | 8 min  | –                |
-| Ovnsbakte rotgrønnsaker     | 190 °C | 15 min | Rist etter 7 min |
+| Vare                        | Temp   | Tid                       | Rist/snu         |
+| --------------------------- | ------ | ------------------------- | ---------------- |
+| Frosne pommes frites        | 200 °C | 16 min                    | Rist etter 8 min |
+| Kyllingbryst                | 180 °C | 18 min                    | Snu etter 10 min |
+| Laksefilet                  | 180 °C | 10 min                    | –                |
+| Frossenpizza / pizzastykker | 180 °C | 8 min                     | –                |
+| Ovnsbakte rotgrønnsaker     | 190 °C | 15 min                    | Rist etter 7 min |
+| Kokte egg                   | 125 °C | 11–13 min (nedtelling 12) | –                |
+
+Egg er testet på Philips Airfryer XL (brukerens egne forsøk). Et hurtigvalg kan ha et tidsintervall (`minutesRange`) og et kort tips (`note`); nedtellingen bruker da `minutes`, som står midt i intervallet.
 
 **Oppførsel**
 
@@ -134,9 +144,10 @@ Data i `src/data/presets.ts`. Et hurtigvalg viser ferdige airfryer-verdier direk
 
 ## 7. Nedtellingsklokke
 
-Logikk i en egen hook, `src/hooks/useCountdown.ts`.
+Selve nedtellingen ligger i `src/hooks/useCountdown.ts`, og lyd, vibrasjon, wake lock, fanetittel og omstart-spørsmål i `src/hooks/useAirfryerTimer.ts`. Delene som vises (`StartButton`, `TimerRow`, `DoneRow`, `MidwayBanner`, `ChangedPrompt`) ligger i `src/components/Timer.tsx` og settes sammen i resultatkortet.
 
-- **Knapper:** `Start nedtelling` → `Pause` / `Fortsett` → `Nullstill`.
+- **Knapper:** `▶ 16:00` (start) → `Pause` / `Fortsett` → `Nullstill`.
+- **Plass:** klokka bytter ut tallraden mens den går, så kortet ikke vokser (162 → ca. 100 px fra v1.1.0).
 - **Presis tid:** lagrer sluttidspunkt (`Date.now() + varighet`) og regner gjenstående tid fra det. Da går ikke klokka feil når fanen ligger i bakgrunnen eller skjermen dimmes.
 - **Visning:** stor `mm:ss` i Syne og en oransje fremdriftsring med en prikk der halvveis-varselet kommer. Under tiden står «Rist om m:ss», deretter «Ferdig kl. hh:mm».
 - **Halvveis-varsel:** lyd (to korte pip), vibrasjon (`navigator.vibrate`) og et banner: «Rist kurven nå!» / «Snu maten nå!».

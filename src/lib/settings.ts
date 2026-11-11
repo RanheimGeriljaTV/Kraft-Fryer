@@ -1,5 +1,5 @@
 /**
- * Felles format for det resultatkortet (og senere timeren) viser,
+ * Felles format for det resultatkortet og nedtellingsklokken viser,
  * uansett om verdiene kommer fra omregning eller fra et hurtigvalg.
  */
 import type { MidwayAction, Preset } from '../data/presets';
@@ -14,6 +14,10 @@ export interface AirfryerSettings {
   midway: { action: MidwayAction; atSeconds: number } | null;
   /** Satt når verdiene kommer fra et hurtigvalg. */
   preset?: Pick<Preset, 'id' | 'name' | 'emoji'>;
+  /** Tidsintervall fra hurtigvalget (f.eks. egg 11–13 min). `minutes` er da midt i. */
+  minutesRange?: readonly [number, number];
+  /** Tips fra hurtigvalget, vises under tallene. */
+  note?: string;
 }
 
 export function fromConvert(result: ConvertResult): AirfryerSettings {
@@ -34,6 +38,8 @@ export function fromPreset(preset: Preset): AirfryerSettings {
       ? { action: preset.midway.action, atSeconds: preset.midway.atMinutes * 60 }
       : null,
     preset: { id: preset.id, name: preset.name, emoji: preset.emoji },
+    minutesRange: preset.minutesRange,
+    note: preset.note,
   };
 }
 

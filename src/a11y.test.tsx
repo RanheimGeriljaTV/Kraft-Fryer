@@ -80,9 +80,16 @@ describe('Skjermleser', () => {
 
   it('gir hurtigvalg samme navn som teksten på knappen (WCAG 2.5.3, talestyring)', () => {
     render(<App />);
-    for (const label of ['Pommes frites', 'Kyllingbryst', 'Laksefilet', 'Pizza', 'Rotgrønnsaker']) {
+    for (const label of [
+      'Pommes frites',
+      'Kyllingbryst',
+      'Laksefilet',
+      'Pizza',
+      'Rotgrønnsaker',
+      'Egg',
+    ]) {
       expect(
-        screen.getByRole('button', { name: new RegExp(`^${label} \\d+ °C · \\d+ min$`) }),
+        screen.getByRole('button', { name: new RegExp(`^${label} \\d+ °C · \\d+(–\\d+)? min$`) }),
       ).toBeInTheDocument();
     }
   });

@@ -1,5 +1,5 @@
 import { useId } from 'react';
-import type { Preset } from '../data/presets';
+import { formatPresetMinutes, type Preset } from '../data/presets';
 import SectionLabel from './SectionLabel';
 
 interface Props {
@@ -45,7 +45,7 @@ export default function PresetBar({ presets, activeId, onSelect }: Props) {
                       active ? 'text-black/70' : 'text-zinc-400'
                     }`}
                   >
-                    {preset.temp} °C · {preset.minutes} min
+                    {preset.temp} °C · {formatPresetMinutes(preset)} min
                   </span>
                 </span>
               </button>

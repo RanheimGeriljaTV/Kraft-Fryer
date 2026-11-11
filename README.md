@@ -4,7 +4,7 @@
 
 Gjør om temperatur og tid fra en vanlig stekeovnsoppskrift til airfryer-innstillinger, med hurtigvalg for populære varer og en innebygd nedtellingsklokke. Laget for å kunne brukes med én tommel på mobil.
 
-> **Status:** v1.0.0 – live på **https://ranheimkraft.no/airfryer/**. Se [`PLAN.md`](PLAN.md) for plan og milepæler.
+> **Status:** v1.1.0 – live på **https://ranheimkraft.no/airfryer/** (nettsiden henter nye versjoner innen 3 timer). Se [`PLAN.md`](PLAN.md) for plan og milepæler.
 >
 > **Forhåndsvisning:** https://ranheimgeriljatv.github.io/Kraft-Fryer/
 
@@ -27,33 +27,37 @@ Standardverdier: over-/undervarme, 200 °C, 20 min, ett lag → 180 °C i 16 min
 
 Logikken ligger i [`src/lib/convert.ts`](src/lib/convert.ts) og er testet i [`convert.test.ts`](src/lib/convert.test.ts).
 
+Reglene er tommelfingerregler, og vanlige kilder anbefaler omtrent det samme (−10 til −20 °C og ca. 20 % kortere tid). Se [`PLAN.md`](PLAN.md), avsnitt 5. Sjekk maten litt før tiden er ute.
+
 ### Hurtigvalg (ferdig)
 
 En sveipbar rad øverst gir ferdige airfryer-innstillinger med ett trykk, for varer uten oppskrift:
 
-| Vare                           | Temp   | Tid    | Halvveis         |
-| ------------------------------ | ------ | ------ | ---------------- |
-| 🍟 Frosne pommes frites        | 200 °C | 16 min | Rist etter 8 min |
-| 🍗 Kyllingbryst                | 180 °C | 18 min | Snu etter 10 min |
-| 🐟 Laksefilet                  | 180 °C | 10 min | –                |
-| 🍕 Frossenpizza / pizzastykker | 180 °C | 8 min  | –                |
-| 🥕 Ovnsbakte rotgrønnsaker     | 190 °C | 15 min | Rist etter 7 min |
+| Vare                           | Temp   | Tid       | Halvveis         |
+| ------------------------------ | ------ | --------- | ---------------- |
+| 🍟 Frosne pommes frites        | 200 °C | 16 min    | Rist etter 8 min |
+| 🍗 Kyllingbryst                | 180 °C | 18 min    | Snu etter 10 min |
+| 🐟 Laksefilet                  | 180 °C | 10 min    | –                |
+| 🍕 Frossenpizza / pizzastykker | 180 °C | 8 min     | –                |
+| 🥕 Ovnsbakte rotgrønnsaker     | 190 °C | 15 min    | Rist etter 7 min |
+| 🥚 Kokte egg                   | 125 °C | 11–13 min | –                |
 
-- Resultatkortet viser varens navn og en ×-knapp for å gå tilbake til oppskriften.
+- **Egg** er testet på Philips Airfryer XL. Nedtellingen bruker 12 min (midt i intervallet). Kortere tid gir mykere plomme.
+- Resultatkortet viser varens navn og en liten × for å gå tilbake til oppskriften.
 - Oppskriftsfeltene dempes mens et hurtigvalg er i bruk. Endrer du noe der, eller trykker på hurtigvalget igjen, går appen tilbake til omregning. Verdiene du hadde skrevet inn, beholdes.
-- Varene ligger i [`src/data/presets.ts`](src/data/presets.ts). Legg til en ny ved å legge til et objekt i listen.
+- Varene ligger i [`src/data/presets.ts`](src/data/presets.ts). Legg til en ny ved å legge til et objekt i listen. Har varen et tidsintervall, bruk `minutesRange` (vises som «11–13 min») og sett `minutes` til tiden nedtellingen skal bruke. Et kort tips kan legges i `note`.
 
 ### Nedtellingsklokke (ferdig)
 
-Trykk **Start nedtelling** i resultatkortet. Klokka bruker tiden fra omregningen eller hurtigvalget.
+Trykk **▶ 16:00** ved siden av tallene i resultatkortet. Klokka bruker tiden fra omregningen eller hurtigvalget. Mens den går, tar den plassen til tallene (temperatur og tid flyttes opp i toppraden), så kortet holder seg rundt 100 px høyt.
 
-| Når             | Hva skjer                                                                                                              |
-| --------------- | ---------------------------------------------------------------------------------------------------------------------- |
-| Mens den går    | Stor `m:ss`, oransje ring med prikk ved halvveis, «Rist om …» og deretter «Ferdig kl. …». Pause/Fortsett og Nullstill. |
-| Halvveis        | To pip, vibrasjon og banneret «Rist kurven nå!» eller «Snu maten nå!» (ikke for laks og pizza).                        |
-| Ferdig          | Tre stigende pip som gjentas hvert 2,5 sekund, kraftig vibrasjon og blinkende «Maten er ferdig!» til du trykker OK.    |
-| Du endrer tiden | Spørsmål om å starte på nytt med ny tid, eller beholde nedtellingen.                                                   |
-| I en annen fane | Fanetittelen viser gjenstående tid (`⏱ 7:32 – …`, `✅ Ferdig! – …`).                                                   |
+| Når             | Hva skjer                                                                                                                          |
+| --------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| Mens den går    | `m:ss` på én rad med liten oransje ring (prikk ved halvveis), «Rist om …» og deretter «Ferdig kl. …». Pause/Fortsett og Nullstill. |
+| Halvveis        | To pip, vibrasjon og banneret «Rist kurven nå!» eller «Snu maten nå!» (ikke for laks og pizza).                                    |
+| Ferdig          | Tre stigende pip som gjentas hvert 2,5 sekund, kraftig vibrasjon og blinkende «Maten er ferdig!» til du trykker OK.                |
+| Du endrer tiden | Spørsmål om å starte på nytt med ny tid, eller beholde nedtellingen.                                                               |
+| I en annen fane | Fanetittelen viser gjenstående tid (`⏱ 7:32 – …`, `✅ Ferdig! – …`).                                                               |
 
 - Tiden regnes fra et fast sluttidspunkt, så den er riktig selv om fanen har ligget i bakgrunnen.
 - Skjermen holdes på mens klokka går (Screen Wake Lock), der nettleseren støtter det.

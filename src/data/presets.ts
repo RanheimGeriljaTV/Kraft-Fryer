@@ -10,9 +10,14 @@ export interface Preset {
   name: string;
   emoji: string;
   temp: number; // °C
+  /** Tiden nedtellingen bruker. Ved et tidsintervall: midt i intervallet. */
   minutes: number;
+  /** Tidsintervall når tiden varierer, f.eks. egg: [11, 13]. */
+  minutesRange?: readonly [number, number];
   /** Når maten skal ristes eller snus. Mangler for varer som ikke trenger det. */
   midway?: { action: MidwayAction; atMinutes: number };
+  /** Kort tips som vises i resultatkortet. */
+  note?: string;
 }
 
 export const PRESETS: readonly Preset[] = [
@@ -59,6 +64,21 @@ export const PRESETS: readonly Preset[] = [
     minutes: 15,
     midway: { action: 'shake', atMinutes: 7 },
   },
+  {
+    // Testet på Philips Airfryer XL (brukerens egne forsøk, november 2026).
+    id: 'egg',
+    label: 'Egg',
+    name: 'Kokte egg',
+    emoji: '🥚',
+    temp: 125,
+    minutes: 12,
+    minutesRange: [11, 13],
+    note: 'Philips XL: 11–13 min. Kortere tid gir mykere plomme.',
+  },
 ];
+
+/** «16» eller «11–13» – tiden slik den vises på knapper og i kortet. */
+export const formatPresetMinutes = (preset: Pick<Preset, 'minutes' | 'minutesRange'>) =>
+  preset.minutesRange ? `${preset.minutesRange[0]}–${preset.minutesRange[1]}` : `${preset.minutes}`;
 
 export const findPreset = (id: string | null) => PRESETS.find((preset) => preset.id === id);

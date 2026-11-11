@@ -5,7 +5,6 @@ import PresetBar from './components/PresetBar';
 import SegmentedToggle, { type ToggleOption } from './components/SegmentedToggle';
 import Stepper from './components/Stepper';
 import ResultCard from './components/ResultCard';
-import Timer from './components/Timer';
 import { PRESETS, findPreset } from './data/presets';
 import {
   OVEN_MINUTES,
@@ -132,9 +131,7 @@ export default function App() {
           />
         </div>
 
-        <ResultCard settings={settings} onClearPreset={clearPreset}>
-          <Timer settings={settings} />
-        </ResultCard>
+        <ResultCard settings={settings} onClearPreset={clearPreset} />
       </main>
 
       <Footer />

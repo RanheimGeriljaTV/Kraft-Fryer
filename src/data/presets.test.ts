@@ -1,4 +1,4 @@
-import { PRESETS, findPreset } from './presets';
+import { PRESETS, findPreset, formatPresetMinutes } from './presets';
 import { fromPreset } from '../lib/settings';
 
 describe('hurtigvalg', () => {
@@ -13,6 +13,29 @@ describe('hurtigvalg', () => {
     const preset = findPreset(id);
     expect(preset).toMatchObject({ name, temp, minutes });
     expect(preset?.midway).toEqual(midway);
+  });
+
+  it('egg: 125 °C i 11–13 min (testet på Philips Airfryer XL), nedtelling midt i', () => {
+    const egg = findPreset('egg');
+    expect(egg).toMatchObject({
+      name: 'Kokte egg',
+      temp: 125,
+      minutes: 12,
+      minutesRange: [11, 13],
+    });
+    expect(egg?.midway).toBeUndefined();
+    expect(egg?.note).toMatch(/Philips XL/);
+    expect(formatPresetMinutes(egg!)).toBe('11–13');
+    expect(formatPresetMinutes(findPreset('pommes')!)).toBe('16');
+  });
+
+  it('har nedtellingstid innenfor tidsintervallet', () => {
+    for (const preset of PRESETS) {
+      if (!preset.minutesRange) continue;
+      const [min, max] = preset.minutesRange;
+      expect(preset.minutes).toBeGreaterThanOrEqual(min);
+      expect(preset.minutes).toBeLessThanOrEqual(max);
+    }
   });
 
   it('har unike id-er', () => {

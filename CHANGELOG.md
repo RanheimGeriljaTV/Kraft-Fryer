@@ -7,6 +7,25 @@ og prosjektet følger [Semantic Versioning](https://semver.org/lang/no/).
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-11-11
+
+### Lagt til
+
+- Hurtigvalget **🥚 Kokte egg**: 125 °C i 11–13 min, testet på Philips Airfryer XL. Nedtellingen bruker 12 min, og et tips i kortet sier at kortere tid gir mykere plomme.
+- Hurtigvalg kan ha et tidsintervall (`minutesRange`, vises som «11–13 min») og et kort tips (`note`).
+- `PLAN.md` forklarer hvor omregningsreglene kommer fra, med kilder.
+- 7 nye tester for egg og kompakt nedtelling (82 totalt).
+
+### Endret
+
+- **Mye lavere resultatkort:** fra 162 til 97 px på en vanlig mobil.
+  - Startknappen er en liten «▶ 16:00» på samme rad som tallene, i stedet for en egen rad i full bredde.
+  - Mens klokka går, tar nedtellingen plassen til tallene, og temperatur og tid flyttes opp i toppraden. Kortet vokser ikke lenger når du starter.
+  - ×-knappen for å fjerne et hurtigvalg står ved varenavnet (fortsatt 48 × 48 px trykkflate).
+  - Mindre fremdriftsring (44 px) og spørsmålet om omstart på én linje.
+  - Notisen om 200 °C-grensen er kortet ned til én linje.
+- Timer-logikken er flyttet til `src/hooks/useAirfryerTimer.ts`, og `src/components/Timer.tsx` inneholder nå bare små visningsdeler.
+
 ## [1.0.0] - 2026-11-10
 
 ### Lagt til
@@ -116,7 +135,8 @@ og prosjektet følger [Semantic Versioning](https://semver.org/lang/no/).
 - `CLAUDE.md` med arbeidsregler for dokumentasjon, versjonering, hemmeligheter og GitHub-arbeidsflyt.
 - `README.md`, `CHANGELOG.md` og `.gitignore`.
 
-[Unreleased]: https://github.com/RanheimGeriljaTV/Kraft-Fryer/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/RanheimGeriljaTV/Kraft-Fryer/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/RanheimGeriljaTV/Kraft-Fryer/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/RanheimGeriljaTV/Kraft-Fryer/compare/v0.5.0...v1.0.0
 [0.5.0]: https://github.com/RanheimGeriljaTV/Kraft-Fryer/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/RanheimGeriljaTV/Kraft-Fryer/compare/v0.3.0...v0.4.0
